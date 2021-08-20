@@ -62,5 +62,20 @@ public class Card {
     )
     private List<User> members;
 
+    @JsonIgnore
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH
+            })
+    @JoinTable(
+            name = "card_labels",
+            joinColumns = {@JoinColumn(name = "card_id")},
+            inverseJoinColumns = @JoinColumn(name = "label_id")
+    )
+    private List<Label> labels;
+
 
 }
