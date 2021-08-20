@@ -28,11 +28,13 @@ public class TrelloCloneApplication {
 			User alicnik = User.builder()
 					.username("alicnik")
 					.emailAddress("alicnik@hotmail.com")
+					.password("alicnik")
 					.build();
 
 			User chloe = User.builder()
 					.username("chloebuilds")
 					.emailAddress("chloe@gmail.com")
+					.password("chloe")
 					.build();
 
 			Board toDoList = Board.builder()

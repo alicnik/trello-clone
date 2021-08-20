@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "boards")
@@ -40,4 +41,12 @@ public class Board {
     })
     @JoinColumn(name = "board_owner")
     private User owner;
+
+    @Column
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<BoardList> lists;
+
+    @Column
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Card> cards;
 }
