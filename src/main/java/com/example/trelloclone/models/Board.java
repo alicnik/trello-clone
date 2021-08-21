@@ -25,7 +25,8 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "board_sequence")
     private Long id;
 
-    private String name;
+    @Column(nullable = false)
+    private String boardName;
     private String description;
     private String background;
 
@@ -38,7 +39,7 @@ public class Board {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.REFRESH,
-    })
+    }, optional = false)
     @JoinColumn(name = "board_owner")
     private User owner;
 

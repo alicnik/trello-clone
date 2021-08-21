@@ -38,7 +38,7 @@ public class TrelloCloneApplication {
 					.build();
 
 			Board toDoList = Board.builder()
-					.name("To-Do List")
+					.boardName("To-Do List")
 					.background("green")
 					.owner(alicnik)
 					.build();
