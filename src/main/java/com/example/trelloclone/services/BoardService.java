@@ -34,4 +34,8 @@ public class BoardService {
                 .build();
         return boardRepository.save(board);
     }
+
+    public void deleteBoard(Long boardId) {
+        boardRepository.deleteById(boardId);
+    }
 }

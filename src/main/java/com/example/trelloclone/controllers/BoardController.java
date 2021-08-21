@@ -43,4 +43,10 @@ public class BoardController {
         return new ResponseEntity<>(board, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("{boardId}")
+    public ResponseEntity deleteBoard(@PathVariable String boardId) {
+        boardService.deleteBoard(Long.valueOf(boardId));
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
 }
