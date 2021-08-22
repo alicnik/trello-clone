@@ -50,4 +50,9 @@ public class Board {
     @Column
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Card> cards;
+
+    public static class NewBoard {
+        public String username;
+        public String boardName;
+    }
 }

@@ -1,8 +1,6 @@
 package com.example.trelloclone.controllers;
 
-import com.example.trelloclone.models.Board;
 import com.example.trelloclone.models.User;
-import com.example.trelloclone.models.UserLogin;
 import com.example.trelloclone.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserLogin body) {
+    public String login(@RequestBody User.UserLogin body) {
         return userService.loginUser(body);
     }
 }

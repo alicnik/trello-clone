@@ -1,7 +1,6 @@
 package com.example.trelloclone.controllers;
 
 import com.example.trelloclone.models.Board;
-import com.example.trelloclone.models.NewBoard;
 import com.example.trelloclone.models.User;
 import com.example.trelloclone.services.BoardService;
 import com.example.trelloclone.services.UserService;
@@ -37,7 +36,7 @@ public class BoardController {
     }
 
     @PostMapping
-    public ResponseEntity<Board> createBoard(@RequestBody NewBoard body) {
+    public ResponseEntity<Board> createBoard(@RequestBody Board.NewBoard body) {
         User user = userService.getUserByUsername(body.username);
         Board board = boardService.createBoard(body.boardName, user);
         return new ResponseEntity<>(board, HttpStatus.CREATED);

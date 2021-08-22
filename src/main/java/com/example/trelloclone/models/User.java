@@ -65,4 +65,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
     private List<Card> cardMemberships;
+
+    public static class UserLogin {
+        public String username;
+        public String password;
+    }
 }

@@ -1,7 +1,6 @@
 package com.example.trelloclone.services;
 
 import com.example.trelloclone.models.User;
-import com.example.trelloclone.models.UserLogin;
 import com.example.trelloclone.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public String loginUser(@RequestBody UserLogin body) {
+    public String loginUser(@RequestBody User.UserLogin body) {
         boolean userExists = userRepository.existsByUsernameAndPassword(
                 body.username,
                 body.password
