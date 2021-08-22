@@ -54,4 +54,5 @@ public class Label {
 
     int position;
     boolean archived;
+
 }
