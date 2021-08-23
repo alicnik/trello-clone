@@ -20,7 +20,6 @@ import java.util.List;
 public class Label {
 
     @Id
-    @SequenceGenerator(name = "label_sequence", sequenceName = "label_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "label_sequence")
     private Long id;
 

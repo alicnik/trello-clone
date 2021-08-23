@@ -18,7 +18,6 @@ import java.util.List;
 public class BoardList {
 
     @Id
-    @SequenceGenerator(name = "list_sequence", sequenceName = "list_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "list_sequence")
     private Long id;
 
