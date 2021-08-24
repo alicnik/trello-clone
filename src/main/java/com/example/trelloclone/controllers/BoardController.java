@@ -4,6 +4,7 @@ import com.example.trelloclone.models.Board;
 import com.example.trelloclone.models.User;
 import com.example.trelloclone.services.BoardService;
 import com.example.trelloclone.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/boards")
+@RequiredArgsConstructor
 public class BoardController {
 
     private final BoardService boardService;
     private final UserService userService;
-
-    @Autowired
-    public BoardController(BoardService boardService, UserService userService) {
-        this.boardService = boardService;
-        this.userService = userService;
-    }
 
     @GetMapping
     public List<Board> getAllBoards() {
