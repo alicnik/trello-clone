@@ -32,7 +32,7 @@ public class TrelloCloneApplication {
 					.build();
 
 			User chloe = User.builder()
-					.username("chloebuilds")
+					.username("chloe")
 					.emailAddress("chloe@gmail.com")
 					.password("chloe")
 					.build();
