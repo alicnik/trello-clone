@@ -12,10 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/boards")
-@RequiredArgsConstructor
 public class BoardListController {
 
     private BoardListService boardListService;
+
+    @Autowired
+    public BoardListController(BoardListService boardListService) {
+        this.boardListService = boardListService;
+    }
 
     @GetMapping(path = "/lists/{listId}")
     public BoardList getSingleBoardList(@PathVariable String listId) {

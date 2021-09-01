@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/cards/comments")
-@RequiredArgsConstructor
 public class CommentController {
 
     private CommentService commentService;
 
+    @Autowired
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
+    }
 }

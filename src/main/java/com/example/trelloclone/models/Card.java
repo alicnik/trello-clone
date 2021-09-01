@@ -18,8 +18,7 @@ import java.util.List;
 public class Card {
 
     @Id
-    @SequenceGenerator(name = "card_sequence", sequenceName = "card_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "card_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonIgnore
