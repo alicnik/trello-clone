@@ -28,7 +28,7 @@ public class Card {
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "card_author")
-    private User author;
+    private AppUser author;
 
     @JsonIgnore
     @ManyToOne(cascade = {
@@ -61,7 +61,7 @@ public class Card {
             joinColumns = {@JoinColumn(name = "card_id")},
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> members;
+    private List<AppUser> members;
 
     @JsonIgnore
     @ManyToMany(

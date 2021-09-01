@@ -34,7 +34,7 @@ public class Comment {
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "comment_author")
-    private User author;
+    private AppUser author;
 
     @JsonIgnore
     @ManyToOne(cascade = {

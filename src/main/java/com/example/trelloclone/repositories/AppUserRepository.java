@@ -1,16 +1,13 @@
 package com.example.trelloclone.repositories;
 
-import com.example.trelloclone.models.Board;
-import com.example.trelloclone.models.User;
+import com.example.trelloclone.models.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
-    User findByUsername(String username);
+    AppUser findByUsername(String username);
 
     boolean existsByUsernameAndPassword(String username, String password);
 }

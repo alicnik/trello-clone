@@ -40,7 +40,7 @@ public class Board {
             CascadeType.REFRESH,
     }, optional = false)
     @JoinColumn(name = "board_owner")
-    private User owner;
+    private AppUser owner;
 
     @Column
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)

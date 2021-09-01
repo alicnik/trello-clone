@@ -1,9 +1,9 @@
 package com.example.trelloclone;
 
+import com.example.trelloclone.models.AppUser;
 import com.example.trelloclone.models.Board;
-import com.example.trelloclone.models.User;
 import com.example.trelloclone.repositories.BoardRepository;
-import com.example.trelloclone.repositories.UserRepository;
+import com.example.trelloclone.repositories.AppUserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,17 +21,17 @@ public class TrelloCloneApplication {
 
 	@Bean
 	CommandLineRunner commandLineRunner(
-			UserRepository userRepository,
+			AppUserRepository appUserRepository,
 			BoardRepository boardRepository
 	) {
 		return args -> {
-			User alicnik = User.builder()
+			AppUser alicnik = AppUser.builder()
 					.username("alicnik")
 					.emailAddress("alicnik@hotmail.com")
 					.password("alicnik")
 					.build();
 
-			User chloe = User.builder()
+			AppUser chloe = AppUser.builder()
 					.username("chloe")
 					.emailAddress("chloe@gmail.com")
 					.password("chloe")
@@ -43,7 +43,7 @@ public class TrelloCloneApplication {
 					.owner(alicnik)
 					.build();
 
-			userRepository.saveAll(List.of(alicnik, chloe));
+			appUserRepository.saveAll(List.of(alicnik, chloe));
 			boardRepository.save(toDoList);
 		};
 	}
