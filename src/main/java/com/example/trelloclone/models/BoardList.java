@@ -18,7 +18,7 @@ import java.util.List;
 public class BoardList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "list_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonIgnore

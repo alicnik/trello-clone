@@ -3,6 +3,7 @@ package com.example.trelloclone.controllers;
 import com.example.trelloclone.models.Label;
 import com.example.trelloclone.services.LabelService;
 import jdk.jshell.spi.ExecutionControl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -21,7 +21,7 @@ public class Board {
 
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "board_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -40,7 +40,7 @@ public class Board {
             CascadeType.REFRESH,
     }, optional = false)
     @JoinColumn(name = "board_owner")
-    private User owner;
+    private AppUser owner;
 
     @Column
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)

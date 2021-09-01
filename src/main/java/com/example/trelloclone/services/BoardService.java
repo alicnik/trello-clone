@@ -1,7 +1,7 @@
 package com.example.trelloclone.services;
 
 import com.example.trelloclone.models.Board;
-import com.example.trelloclone.models.User;
+import com.example.trelloclone.models.AppUser;
 import com.example.trelloclone.repositories.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +27,10 @@ public class BoardService {
         return boardRepository.findById(boardId);
     }
 
-    public Board createBoard(String boardName, User user) {
+    public Board createBoard(String boardName, AppUser appUser) {
         Board board = Board.builder()
                 .boardName(boardName)
-                .owner(user)
+                .owner(appUser)
                 .build();
         return boardRepository.save(board);
     }

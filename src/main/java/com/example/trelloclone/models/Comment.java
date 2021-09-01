@@ -20,7 +20,7 @@ import java.util.List;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "comment_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "created", columnDefinition = "TIMESTAMP")
@@ -34,7 +34,7 @@ public class Comment {
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "comment_author")
-    private User author;
+    private AppUser author;
 
     @JsonIgnore
     @ManyToOne(cascade = {

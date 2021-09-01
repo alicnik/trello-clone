@@ -4,6 +4,7 @@ import com.example.trelloclone.models.Board;
 import com.example.trelloclone.models.BoardList;
 import com.example.trelloclone.services.BoardListService;
 import com.example.trelloclone.services.BoardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class BoardListController {
     private BoardListService boardListService;
 
     @Autowired
-    public BoardListController(BoardService boardService, BoardListService boardListService) {
+    public BoardListController(BoardListService boardListService) {
         this.boardListService = boardListService;
     }
 

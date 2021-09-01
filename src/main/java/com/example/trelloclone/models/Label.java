@@ -20,7 +20,7 @@ import java.util.List;
 public class Label {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "label_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
