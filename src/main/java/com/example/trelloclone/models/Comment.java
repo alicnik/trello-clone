@@ -23,6 +23,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "body")
+    private String body;
+
     @Column(name = "created", columnDefinition = "TIMESTAMP")
     @CreationTimestamp
     private LocalDateTime created;
@@ -41,7 +44,7 @@ public class Comment {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.REFRESH,
-    })
+    }, optional = false)
     @JoinColumn(name = "comment_parent_card")
     private Card parentCard;
 

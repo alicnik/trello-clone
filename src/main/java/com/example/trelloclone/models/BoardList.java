@@ -40,4 +40,5 @@ public class BoardList {
     @Column
     private boolean archived;
 
+
 }
