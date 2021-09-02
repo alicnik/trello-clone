@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
@@ -20,6 +21,11 @@ public class TrelloCloneApplication {
 	}
 
 	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
 	CommandLineRunner commandLineRunner(
 			AppUserRepository appUserRepository,
 			BoardRepository boardRepository
@@ -28,13 +34,13 @@ public class TrelloCloneApplication {
 			AppUser alicnik = AppUser.builder()
 					.username("alicnik")
 					.emailAddress("alicnik@hotmail.com")
-					.password("alicnik")
+					.password(bCryptPasswordEncoder().encode("alicnik"))
 					.build();
 
 			AppUser chloe = AppUser.builder()
 					.username("chloe")
 					.emailAddress("chloe@gmail.com")
-					.password("chloe")
+					.password(bCryptPasswordEncoder().encode("chloe"))
 					.build();
 
 			Board toDoList = Board.builder()

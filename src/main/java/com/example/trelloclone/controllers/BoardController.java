@@ -16,8 +16,8 @@ import java.util.Optional;
 @RequestMapping("api/v1/boards")
 public class BoardController {
 
-    private BoardService boardService;
-    private AppUserService appUserService;
+    private final BoardService boardService;
+    private final AppUserService appUserService;
 
     @Autowired
     public BoardController(BoardService boardService, AppUserService appUserService) {

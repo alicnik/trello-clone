@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/cards")
 public class CardController {
 
-    private CardService cardService;
+    private final CardService cardService;
 
     @Autowired
     public CardController(CardService cardService) {
