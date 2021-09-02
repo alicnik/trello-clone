@@ -1,5 +1,6 @@
 package com.example.trelloclone.controllers;
 
+import com.example.trelloclone.filters.CustomAuthenticationFilter;
 import com.example.trelloclone.models.AppUser;
 import com.example.trelloclone.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.List;
 @RequestMapping("api/v1")
 public class AppUserController {
 
-    private AppUserService appUserService;
+    private final AppUserService appUserService;
 
     @Autowired
     public AppUserController(AppUserService appUserService) {
@@ -45,8 +46,4 @@ public class AppUserController {
         return ResponseEntity.created(uri).body(newAppUser);
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody AppUser.UserLogin body) {
-        return appUserService.loginUser(body);
-    }
 }

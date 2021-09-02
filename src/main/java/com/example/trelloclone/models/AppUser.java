@@ -1,6 +1,7 @@
 package com.example.trelloclone.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 
 @Entity
 @Table(
@@ -40,6 +43,7 @@ public class AppUser {
     private String emailAddress;
 
     @Column(nullable = false)
+    @JsonProperty(access = WRITE_ONLY)
     private String password;
 
     @Column

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CardService {
 
-    private CardRepository cardRepository;
+    private final CardRepository cardRepository;
 
     @Autowired
     public CardService(CardRepository cardRepository) {

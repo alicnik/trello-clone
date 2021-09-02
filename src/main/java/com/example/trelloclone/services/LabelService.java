@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LabelService {
 
-    private LabelRepository labelRepository;
+    private final LabelRepository labelRepository;
 
     public LabelService(LabelRepository labelRepository) {
         this.labelRepository = labelRepository;

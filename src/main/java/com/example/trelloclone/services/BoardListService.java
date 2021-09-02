@@ -12,8 +12,8 @@ import java.util.List;
 @Service
 public class BoardListService {
 
-    private BoardRepository boardRepository;
-    private BoardListRepository boardListRepository;
+    private final BoardRepository boardRepository;
+    private final BoardListRepository boardListRepository;
 
     @Autowired
     public BoardListService(BoardRepository boardRepository, BoardListRepository boardListRepository) {
