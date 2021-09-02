@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/cards/labels")
 public class LabelController {
 
-    private LabelService labelService;
+    private final LabelService labelService;
 
     @Autowired
     public LabelController(LabelService labelService) {
