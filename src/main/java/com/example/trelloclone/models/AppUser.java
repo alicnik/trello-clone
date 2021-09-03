@@ -1,11 +1,9 @@
 package com.example.trelloclone.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,6 +28,10 @@ import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class AppUser {
 
     @Id
@@ -48,13 +50,14 @@ public class AppUser {
 
     @Column
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Board> boards;
 
     @Column
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Card> cards;
 
-    @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
@@ -67,6 +70,7 @@ public class AppUser {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
+    @ToString.Exclude
     private List<Card> cardMemberships;
 
     public static class UserLogin {

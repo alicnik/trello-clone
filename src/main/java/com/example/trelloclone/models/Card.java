@@ -1,10 +1,8 @@
 package com.example.trelloclone.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,13 +13,16 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
@@ -30,16 +31,15 @@ public class Card {
     @JoinColumn(name = "card_author")
     private AppUser author;
 
-    @JsonIgnore
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "board_cards")
+    @ToString.Exclude
     private Board board;
 
-    @JsonIgnore
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
@@ -48,7 +48,6 @@ public class Card {
     @JoinColumn(name = "card_list")
     private BoardList boardList;
 
-    @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
@@ -63,7 +62,6 @@ public class Card {
     )
     private List<AppUser> members;
 
-    @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {

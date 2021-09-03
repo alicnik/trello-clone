@@ -1,9 +1,10 @@
 package com.example.trelloclone.controllers;
 
+import com.example.trelloclone.helpers.NewBoard;
 import com.example.trelloclone.models.AppUser;
 import com.example.trelloclone.models.Board;
-import com.example.trelloclone.services.BoardService;
 import com.example.trelloclone.services.AppUserService;
+import com.example.trelloclone.services.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class BoardController {
     }
 
     @PostMapping
-    public ResponseEntity<Board> createBoard(@RequestBody Board.NewBoard body) {
+    public ResponseEntity<Board> createBoard(@RequestBody NewBoard body) {
         AppUser appUser = appUserService.getUserByUsername(body.username);
         Board board = boardService.createBoard(body.boardName, appUser);
         return new ResponseEntity<>(board, HttpStatus.CREATED);
