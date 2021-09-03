@@ -1,11 +1,10 @@
 package com.example.trelloclone.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,32 +25,37 @@ import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
                 )
         }
 )
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter @Setter
     private Long id;
 
     @Column(nullable = false)
+    @Getter @Setter
     private String username;
 
     @Column(name = "email_address", nullable = false)
+    @Getter @Setter
     private String emailAddress;
 
     @Column(nullable = false)
     @JsonProperty(access = WRITE_ONLY)
+    @Getter @Setter
     private String password;
 
     @Column
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @Getter @Setter
     private List<Board> boards;
 
     @Column
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @Getter @Setter
     private List<Card> cards;
 
     @JsonIgnore
@@ -67,6 +71,7 @@ public class AppUser {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
+    @Getter @Setter
     private List<Card> cardMemberships;
 
     public static class UserLogin {

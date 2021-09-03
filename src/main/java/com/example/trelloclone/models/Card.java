@@ -1,24 +1,25 @@
 package com.example.trelloclone.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "cards")
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
+    @Column
     private Long id;
 
     @JsonIgnore
@@ -28,6 +29,7 @@ public class Card {
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "card_author")
+    @Getter @Setter
     private AppUser author;
 
     @JsonIgnore
@@ -37,6 +39,7 @@ public class Card {
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "board_cards")
+    @Getter @Setter
     private Board board;
 
     @JsonIgnore
@@ -46,6 +49,7 @@ public class Card {
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "card_list")
+    @Getter @Setter
     private BoardList boardList;
 
     @JsonIgnore
@@ -61,6 +65,7 @@ public class Card {
             joinColumns = {@JoinColumn(name = "card_id")},
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @Getter @Setter
     private List<AppUser> members;
 
     @JsonIgnore
@@ -76,6 +81,7 @@ public class Card {
             joinColumns = {@JoinColumn(name = "card_id")},
             inverseJoinColumns = @JoinColumn(name = "label_id")
     )
+    @Getter @Setter
     private List<Label> labels;
 
 

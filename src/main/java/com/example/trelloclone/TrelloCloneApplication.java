@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.xml.bind.ValidationEventLocator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,46 +34,40 @@ public class TrelloCloneApplication {
 			CommentRepository commentRepository
 	) {
 		return args -> {
-			AppUser alicnik = AppUser.builder()
-					.username("alicnik")
-					.emailAddress("alicnik@hotmail.com")
-					.password(bCryptPasswordEncoder().encode("alicnik"))
-					.build();
-
-			AppUser chloe = AppUser.builder()
-					.username("chloe")
-					.emailAddress("chloe@gmail.com")
-					.password(bCryptPasswordEncoder().encode("chloe"))
-					.build();
-
-			Board toDoList = Board.builder()
-					.boardName("To-Do List")
-					.background("green")
-					.owner(alicnik)
-					.build();
-
-			BoardList boardList = BoardList.builder()
-					.board(toDoList)
-					.archived(false)
-					.build();
-
-			Card card = Card.builder()
-					.author(alicnik)
-					.boardList(boardList)
-					.board(toDoList)
-					.build();
-
-			Comment comment = Comment.builder()
-					.author(chloe)
-					.parentCard(card)
-					.body("This is my comment!")
-					.build();
-
-			appUserRepository.saveAll(List.of(alicnik, chloe));
-			boardRepository.save(toDoList);
-			boardListRepository.save(boardList);
-			cardRepository.save(card);
-			commentRepository.save(comment);
+//			AppUser alicnik = new AppUser();
+//			alicnik.setUsername("alicnik");
+//			alicnik.setEmailAddress("alicnik@hotmail.com");
+//			alicnik.setPassword(bCryptPasswordEncoder().encode("alicnik"));
+//
+//			AppUser chloe = new AppUser();
+//			chloe.setUsername("chloe");
+//			chloe.setEmailAddress("chloe@gmail.com");
+//			chloe.setPassword(bCryptPasswordEncoder().encode("chloe"));
+//
+//			Board board = new Board();
+//			board.setBoardName("To-Do List");
+//			board.setBackground("green");
+//			board.setOwner(alicnik);
+//
+//			BoardList boardList = new BoardList();
+//			boardList.setBoard(board);
+//			boardList.setArchived(false);
+//
+//			Card card = new Card();
+//			card.setAuthor(alicnik);
+//			card.setBoardList(boardList);
+//			card.setBoard(board);
+//
+//			Comment comment = new Comment();
+//			comment.setAuthor(chloe);
+//			comment.setParentCard(card);
+//			comment.setBody("This is my comment!");
+//
+//			appUserRepository.saveAll(List.of(alicnik, chloe));
+//			boardRepository.save(board);
+//			boardListRepository.save(boardList);
+//			cardRepository.save(card);
+//			commentRepository.save(comment);
 		};
 	}
 

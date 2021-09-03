@@ -1,10 +1,9 @@
 package com.example.trelloclone.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -13,42 +12,45 @@ import java.util.List;
 
 @Entity
 @Table(name = "comments")
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    @Getter
+    @Setter
     private Long id;
 
     @Column(name = "body")
+    @Getter @Setter
     private String body;
 
     @Column(name = "created", columnDefinition = "TIMESTAMP")
     @CreationTimestamp
+    @Getter @Setter
     private LocalDateTime created;
 
-    @JsonIgnore
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "comment_author")
+    @Getter @Setter
     private AppUser author;
 
-    @JsonIgnore
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.REFRESH,
     }, optional = false)
     @JoinColumn(name = "comment_parent_card")
+    @Getter @Setter
     private Card parentCard;
 
-    @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
@@ -61,6 +63,7 @@ public class Comment {
             joinColumns = {@JoinColumn(name = "comment_id")},
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
+    @Getter @Setter
     private List<Card> linkedCards;
 
 }

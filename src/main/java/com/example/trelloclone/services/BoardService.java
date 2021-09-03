@@ -28,10 +28,9 @@ public class BoardService {
     }
 
     public Board createBoard(String boardName, AppUser appUser) {
-        Board board = Board.builder()
-                .boardName(boardName)
-                .owner(appUser)
-                .build();
+        Board board = new Board();
+        board.setBoardName(boardName);
+        board.setOwner(appUser);
         return boardRepository.save(board);
     }
 

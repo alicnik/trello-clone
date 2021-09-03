@@ -1,10 +1,9 @@
 package com.example.trelloclone.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -13,20 +12,25 @@ import java.util.List;
 
 @Entity
 @Table(name = "labels")
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Label {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     private Long id;
 
     @Column(nullable = false)
+    @Getter
+    @Setter
     private String name;
 
     @Column
+    @Getter
+    @Setter
     private String background;
 
     @JsonIgnore
@@ -42,16 +46,30 @@ public class Label {
             joinColumns = {@JoinColumn(name = "label_id")},
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
+    @Getter
+    @Setter
     private List<Card> cards;
 
+    @Getter
+    @Setter
     private String coverSize;
+
+    @Getter
+    @Setter
     private String coverBackground;
 
     @Column(name = "created", columnDefinition = "TIMESTAMP")
     @CreationTimestamp
+    @Getter
+    @Setter
     private LocalDateTime created;
 
+    @Getter
+    @Setter
     int position;
+
+    @Getter
+    @Setter
     boolean archived;
 
 
