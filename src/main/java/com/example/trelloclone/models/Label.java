@@ -1,7 +1,11 @@
 package com.example.trelloclone.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -15,6 +19,10 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Label {
 
     @Id
@@ -27,7 +35,6 @@ public class Label {
     @Column
     private String background;
 
-    @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {

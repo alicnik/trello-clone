@@ -1,6 +1,7 @@
 package com.example.trelloclone.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,6 +14,10 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 @AllArgsConstructor
 @NoArgsConstructor
 public class Board {
@@ -31,7 +36,6 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime created;
 
-    @JsonIgnore
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
@@ -42,14 +46,12 @@ public class Board {
 
     @Column
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<BoardList> lists;
 
     @Column
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Card> cards;
 
-    public static class NewBoard {
-        public String username;
-        public String boardName;
-    }
 }

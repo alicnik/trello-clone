@@ -1,10 +1,8 @@
 package com.example.trelloclone.controllers;
 
-import com.example.trelloclone.filters.CustomAuthenticationFilter;
 import com.example.trelloclone.models.AppUser;
 import com.example.trelloclone.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
