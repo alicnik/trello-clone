@@ -1,6 +1,7 @@
 package com.example.trelloclone.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,6 +19,7 @@ import java.util.List;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Board {
@@ -29,6 +31,7 @@ public class Board {
 
     @Column(nullable = false)
     private String boardName;
+
     private String description;
     private String background;
 
@@ -46,12 +49,12 @@ public class Board {
 
     @Column
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    @ToString.Exclude
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<BoardList> lists;
 
     @Column
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    @ToString.Exclude
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Card> cards;
 
 }

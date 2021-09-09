@@ -1,6 +1,7 @@
 package com.example.trelloclone.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
@@ -18,6 +19,7 @@ import java.util.List;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Card {
 
     @Id
@@ -38,7 +40,6 @@ public class Card {
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "board_cards")
-    @ToString.Exclude
     private Board board;
 
     @ManyToOne(cascade = {
@@ -55,7 +56,7 @@ public class Card {
                     CascadeType.DETACH,
                     CascadeType.MERGE,
                     CascadeType.REFRESH
-        })
+            })
     @JoinTable(
             name = "card_members",
             joinColumns = {@JoinColumn(name = "card_id")},

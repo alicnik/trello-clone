@@ -1,6 +1,7 @@
 package com.example.trelloclone.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
@@ -9,8 +10,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "lists")
-@Getter
-@Setter
+@Data
+//@Getter
+//@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,11 +20,15 @@ import java.util.List;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class BoardList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "title", nullable = true)
+    private String title;
 
     @ManyToOne(cascade = {
             CascadeType.DETACH,
@@ -34,7 +40,6 @@ public class BoardList {
 
     @Column
     @OneToMany(mappedBy = "boardList", cascade = CascadeType.ALL)
-    @ToString.Exclude
     private List<Card> cards;
 
     @Column(name = "position")
