@@ -1,6 +1,6 @@
 package com.example.trelloclone.controllers;
 
-import com.example.trelloclone.helpers.NewBoard;
+import com.example.trelloclone.controllers.helpers.NewBoard;
 import com.example.trelloclone.repositories.AppUserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ class BoardControllerTest {
 
     @Test
     void createNewBoard() throws Exception {
-        NewBoard newBoard = new NewBoard("alicnik", "integration-test");
+        NewBoard newBoard = new NewBoard( "integration-test");
 
         RequestBuilder request = MockMvcRequestBuilders.post("/api/v1/boards")
                 .contentType(MediaType.APPLICATION_JSON)

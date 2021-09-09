@@ -1,11 +1,10 @@
 package com.example.trelloclone.controllers;
 
-import com.example.trelloclone.helpers.BoardListTitleChange;
+import com.example.trelloclone.controllers.helpers.BoardListTitleChange;
 import com.example.trelloclone.models.BoardList;
 import com.example.trelloclone.services.BoardListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
