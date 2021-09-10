@@ -81,5 +81,7 @@ public class Card {
     )
     private List<Label> labels;
 
-
+    @Column
+    @OneToMany(mappedBy = "parentCard", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 }

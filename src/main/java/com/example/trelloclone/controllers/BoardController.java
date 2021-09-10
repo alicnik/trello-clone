@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/boards")
+@RequestMapping(value = "api/v1/boards")
 @Slf4j
 public class BoardController {
 

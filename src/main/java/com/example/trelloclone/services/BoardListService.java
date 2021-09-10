@@ -68,4 +68,8 @@ public class BoardListService {
     public void deleteSingleBoardList(Long listId) {
         boardListRepository.deleteById(listId);
     }
+
+    public List<BoardList> getAllBoardLists() {
+        return boardListRepository.findAll();
+    }
 }
