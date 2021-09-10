@@ -49,7 +49,7 @@ public class Card {
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "card_list")
-    @JsonIgnoreProperties("cards")
+    @JsonIgnoreProperties({"cards", "board"})
     private BoardList boardList;
 
     @ManyToMany(

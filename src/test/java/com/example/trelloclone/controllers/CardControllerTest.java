@@ -61,7 +61,7 @@ public class CardControllerTest {
 
         mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("Updated first title"));
+                .andExpect(jsonPath("title").value("Updated first title"));
     }
 
 }
