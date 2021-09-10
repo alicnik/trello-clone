@@ -2,8 +2,12 @@ package com.example.trelloclone.controllers;
 
 import com.example.trelloclone.controllers.helpers.NewBoard;
 import com.example.trelloclone.repositories.AppUserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,11 +17,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @SpringJUnitWebConfig
 @AutoConfigureMockMvc
+@Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BoardControllerTest {
 
     @Autowired
@@ -29,15 +38,33 @@ class BoardControllerTest {
     @Autowired
     AppUserRepository appUserRepository;
 
+    String token;
+
+    @BeforeAll
+    void getToken() throws Exception {
+        Map<String, String> body = new HashMap<>();
+        body.put("username", "alicnik");
+        body.put("password", "alicnik");
+        String content = objectMapper.writeValueAsString(body);
+        RequestBuilder request = MockMvcRequestBuilders.post("/api/v1/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        mockMvc.perform(request).andDo(mvcResult -> {
+            String responseBody = mvcResult.getResponse().getContentAsString();
+            Map<String, String> bodyObject = objectMapper.readValue(responseBody, Map.class);
+            this.token = bodyObject.get("access_token");
+        });
+    }
+
     @Test
     void getAllBoards() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/boards/");
+        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/boards/").header("Authorization", "Bearer " + token);
         mockMvc.perform(request).andExpect(status().isOk());
     }
 
     @Test
     void getSingleBoard() throws  Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/boards/1");
+        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/boards/1").header("Authorization", "Bearer " + token);
         mockMvc.perform(request).andExpect(status().isOk());
     }
 
@@ -46,6 +73,7 @@ class BoardControllerTest {
         NewBoard newBoard = new NewBoard( "integration-test");
 
         RequestBuilder request = MockMvcRequestBuilders.post("/api/v1/boards")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newBoard));
 
