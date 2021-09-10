@@ -1,6 +1,7 @@
 package com.example.trelloclone.controllers;
 
 import com.example.trelloclone.controllers.helpers.NewBoard;
+import com.example.trelloclone.helpers.AuthenticationHelper;
 import com.example.trelloclone.repositories.AppUserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,29 +43,20 @@ class BoardControllerTest {
 
     @BeforeAll
     void getToken() throws Exception {
-        Map<String, String> body = new HashMap<>();
-        body.put("username", "alicnik");
-        body.put("password", "alicnik");
-        String content = objectMapper.writeValueAsString(body);
-        RequestBuilder request = MockMvcRequestBuilders.post("/api/v1/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content);
-        mockMvc.perform(request).andDo(mvcResult -> {
-            String responseBody = mvcResult.getResponse().getContentAsString();
-            Map<String, String> bodyObject = objectMapper.readValue(responseBody, Map.class);
-            this.token = bodyObject.get("access_token");
-        });
+        this.token = AuthenticationHelper.getToken(mockMvc, objectMapper);
     }
 
     @Test
     void getAllBoards() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/boards/").header("Authorization", "Bearer " + token);
+        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/boards/")
+                .header("Authorization", "Bearer " + token);
         mockMvc.perform(request).andExpect(status().isOk());
     }
 
     @Test
     void getSingleBoard() throws  Exception {
-        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/boards/1").header("Authorization", "Bearer " + token);
+        RequestBuilder request = MockMvcRequestBuilders.get("/api/v1/boards/1")
+                .header("Authorization", "Bearer " + token);
         mockMvc.perform(request).andExpect(status().isOk());
     }
 
