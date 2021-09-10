@@ -76,18 +76,21 @@ public class TrelloCloneApplication {
 					.build();
 
 			Card firstCard = Card.builder()
+					.title("First card")
 					.author(alicnik)
 					.boardList(firstList)
 					.board(firstBoard)
 					.build();
 
 			Card secondCard = Card.builder()
+					.title("Second card")
 					.author(alicnik)
 					.boardList(firstList)
 					.board(firstBoard)
 					.build();
 
 			Card thirdCard = Card.builder()
+					.title("Third card")
 					.author(alicnik)
 					.boardList(firstList)
 					.board(firstBoard)

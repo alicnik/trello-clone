@@ -9,9 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.swing.text.html.Option;
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -53,5 +57,26 @@ public class CardService {
 
         return cardRepository.save(newCard);
 
+    }
+
+    public Card updateCard(Long cardId, Map<String, Object> patchUpdate) {
+        Optional<Card> cardToFind = cardRepository.findById(cardId);
+        if (cardToFind.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Card does not exist");
+        }
+
+        Card cardToUpdate = cardToFind.get();
+        patchUpdate.remove("id");
+
+        patchUpdate.forEach((key, value) -> {
+            Field field = ReflectionUtils.findField(Card.class, key);
+            if (field == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Property " + key +" does not exist");
+            }
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, cardToUpdate, value);
+        });
+
+        return cardRepository.save(cardToUpdate);
     }
 }

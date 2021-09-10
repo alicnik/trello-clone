@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/lists")
@@ -48,6 +49,11 @@ public class CardController {
         AppUser appUser = appUserService.getUserByUsername(principal.getName());
         Card createdCard = cardService.createNewCard(Long.valueOf(listId), newCard.title, appUser);
         return ResponseEntity.created(uri).body(createdCard);
+    }
+
+    @PatchMapping(path = "/cards/{cardId}")
+    public Card updateCard(@PathVariable String cardId, @RequestBody Map<String, Object> body) {
+        return cardService.updateCard(Long.valueOf(cardId), body);
     }
 }
 
