@@ -1,7 +1,6 @@
 package com.example.trelloclone.services;
 
 import com.example.trelloclone.models.Comment;
-import com.example.trelloclone.repositories.CardRepository;
 import com.example.trelloclone.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

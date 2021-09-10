@@ -1,7 +1,7 @@
 package com.example.trelloclone.services;
 
-import com.example.trelloclone.models.Board;
 import com.example.trelloclone.models.AppUser;
+import com.example.trelloclone.models.Board;
 import com.example.trelloclone.repositories.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

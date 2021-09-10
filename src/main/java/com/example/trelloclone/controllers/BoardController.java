@@ -1,19 +1,25 @@
 package com.example.trelloclone.controllers;
 
+import com.example.trelloclone.controllers.helpers.NewBoard;
+import com.example.trelloclone.controllers.helpers.URIFactory;
 import com.example.trelloclone.models.AppUser;
 import com.example.trelloclone.models.Board;
-import com.example.trelloclone.services.BoardService;
 import com.example.trelloclone.services.AppUserService;
+import com.example.trelloclone.services.BoardService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/boards")
+@Slf4j
 public class BoardController {
 
     private final BoardService boardService;
@@ -36,16 +42,18 @@ public class BoardController {
     }
 
     @PostMapping
-    public ResponseEntity<Board> createBoard(@RequestBody Board.NewBoard body) {
-        AppUser appUser = appUserService.getUserByUsername(body.username);
+    public ResponseEntity<Board> createBoard(@RequestBody NewBoard body, Principal principal) {
+        log.info(body.toString());
+        AppUser appUser = appUserService.getUserByUsername(principal.getName());
         Board board = boardService.createBoard(body.boardName, appUser);
-        return new ResponseEntity<>(board, HttpStatus.CREATED);
+        URI uri = URIFactory.create();
+        return ResponseEntity.created(uri).body(board);
     }
 
     @DeleteMapping(path = "{boardId}")
-    public ResponseEntity deleteBoard(@PathVariable String boardId) {
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteBoard(@PathVariable String boardId) {
         boardService.deleteBoard(Long.valueOf(boardId));
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 }

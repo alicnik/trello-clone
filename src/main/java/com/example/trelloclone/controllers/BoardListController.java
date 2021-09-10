@@ -1,11 +1,10 @@
 package com.example.trelloclone.controllers;
 
-import com.example.trelloclone.models.Board;
+import com.example.trelloclone.controllers.helpers.BoardListTitleChange;
 import com.example.trelloclone.models.BoardList;
 import com.example.trelloclone.services.BoardListService;
-import com.example.trelloclone.services.BoardService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +22,7 @@ public class BoardListController {
 
     @GetMapping(path = "/lists/{listId}")
     public BoardList getSingleBoardList(@PathVariable String listId) {
+        System.out.println("GETTING A SINGLE LIST");
         return boardListService.getSingleBoardList(Long.valueOf(listId));
     }
 
@@ -37,10 +37,17 @@ public class BoardListController {
     }
 
     @PutMapping(path = "/lists/{listId}")
-    public BoardList updateBoardList(
+    public BoardList updateBoardListTitle(
             @PathVariable String listId,
-            @RequestBody BoardList updatedList
+            @RequestBody BoardListTitleChange boardListTitleChange
     ) throws Exception {
-        return boardListService.updateBoardList(Long.valueOf(listId), updatedList);
+        return boardListService.updateBoardListTitle(Long.valueOf(listId), boardListTitleChange.title);
+    }
+
+    @DeleteMapping(path = "/lists/{listId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteBoardList(@PathVariable String listId) {
+        boardListService.deleteSingleBoardList(Long.valueOf(listId));
     }
 }
+

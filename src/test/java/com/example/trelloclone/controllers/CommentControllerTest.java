@@ -49,16 +49,13 @@ public class CommentControllerTest {
 
     @Test
     public void createNewComment() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/api/v1/cards/comments")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString("hello"));
 
-
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .post("/api/v1/cards/comments")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(new ObjectMapper().writeValueAsString("hello"));
-//
-//        this.mockMvc.perform(requestBuilder)
-//                .andExpect(status().isCreated());
-
+        this.mockMvc.perform(requestBuilder)
+                .andExpect(status().isCreated());
     }
 
 }
