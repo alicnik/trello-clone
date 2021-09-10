@@ -97,12 +97,14 @@ public class TrelloCloneApplication {
 					.build();
 
 			Card fourthCard = Card.builder()
+					.title("Fourth card")
 					.author(alicnik)
 					.boardList(firstList)
 					.board(firstBoard)
 					.build();
 
 			Card fifthCard = Card.builder()
+					.title("Fifth card")
 					.author(alicnik)
 					.boardList(firstList)
 					.board(firstBoard)

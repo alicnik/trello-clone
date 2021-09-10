@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityManager;
 import javax.swing.text.html.Option;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -23,11 +24,17 @@ public class CardService {
 
     private final CardRepository cardRepository;
     private final BoardListRepository boardListRepository;
+    private final EntityManager entityManager;
 
     @Autowired
-    public CardService(CardRepository cardRepository, BoardListRepository boardListRepository) {
+    public CardService(
+            CardRepository cardRepository,
+            BoardListRepository boardListRepository,
+            EntityManager entityManager
+    ) {
         this.cardRepository = cardRepository;
         this.boardListRepository = boardListRepository;
+        this.entityManager = entityManager;
     }
 
     public List<Card> getAllCards() {
@@ -78,5 +85,9 @@ public class CardService {
         });
 
         return cardRepository.save(cardToUpdate);
+    }
+
+    public List<Card> getListCards(Long listId) {
+        return cardRepository.findCardsByBoardListId(listId);
     }
 }

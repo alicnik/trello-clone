@@ -20,10 +20,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Label {
 
@@ -49,17 +45,7 @@ public class Label {
             joinColumns = {@JoinColumn(name = "label_id")},
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
+    @JsonIgnoreProperties("labels")
     private List<Card> cards;
-
-    private String coverSize;
-    private String coverBackground;
-
-    @Column(name = "created", columnDefinition = "TIMESTAMP")
-    @CreationTimestamp
-    private LocalDateTime created;
-
-    int position;
-    boolean archived;
-
 
 }

@@ -39,6 +39,11 @@ public class CardController {
         return cardService.getSingleCard(Long.valueOf(cardId));
     }
 
+    @GetMapping(path = "/{listId}/cards")
+    public List<Card> getListCards(@PathVariable Long listId) {
+        return cardService.getListCards(listId);
+    }
+
     @PostMapping(path = "/{listId}/cards")
     public ResponseEntity<Card> createNewCard(
             Principal principal,

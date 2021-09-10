@@ -15,10 +15,6 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,16 +41,17 @@ public class Board {
             CascadeType.REFRESH,
     }, optional = false)
     @JoinColumn(name = "board_owner")
+    @JsonIgnoreProperties({"boards", "cards"})
     private AppUser owner;
 
     @Column
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties("board")
     private List<BoardList> lists;
 
     @Column
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties("board")
     private List<Card> cards;
 
 }

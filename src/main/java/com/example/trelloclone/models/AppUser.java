@@ -30,10 +30,6 @@ import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AppUser {
 
@@ -53,10 +49,12 @@ public class AppUser {
 
     @Column
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("owner")
     private List<Board> boards;
 
     @Column
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("author")
     private List<Card> cards;
 
     @ManyToMany(
@@ -71,6 +69,7 @@ public class AppUser {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
+    @JsonIgnoreProperties("members")
     private List<Card> cardMemberships;
 
     public static class UserLogin {

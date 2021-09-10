@@ -6,8 +6,11 @@ import com.example.trelloclone.services.BoardListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -40,12 +43,16 @@ public class BoardListController {
         return boardListService.createBoardList(Long.valueOf(boardId), newList);
     }
 
-    @PutMapping(path = "/boards/lists/{listId}")
+    @PatchMapping(path = "/boards/lists/{listId}")
     public BoardList updateBoardListTitle(
             @PathVariable String listId,
-            @RequestBody BoardListTitleChange boardListTitleChange
+            @RequestBody Map<String, String> body
     ) throws Exception {
-        return boardListService.updateBoardListTitle(Long.valueOf(listId), boardListTitleChange.title);
+        Optional<String> title = Optional.ofNullable(body.get("title"));
+        if (title.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        return boardListService.updateBoardListTitle(Long.valueOf(listId), title.get());
     }
 
     @DeleteMapping(path = "/lists/{listId}")

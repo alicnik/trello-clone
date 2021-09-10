@@ -21,10 +21,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Comment {
 
@@ -45,6 +41,7 @@ public class Comment {
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "comment_author")
+    @JsonIgnoreProperties("comments")
     private AppUser author;
 
     @ManyToOne(cascade = {
@@ -53,6 +50,7 @@ public class Comment {
             CascadeType.REFRESH,
     }, optional = false)
     @JoinColumn(name = "comment_parent_card")
+    @JsonIgnoreProperties("comments")
     private Card parentCard;
 
     @ManyToMany(
@@ -67,6 +65,7 @@ public class Comment {
             joinColumns = {@JoinColumn(name = "comment_id")},
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
+    @JsonIgnoreProperties("comments")
     private List<Card> linkedCards;
 
 }
