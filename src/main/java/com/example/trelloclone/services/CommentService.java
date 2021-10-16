@@ -3,8 +3,6 @@ package com.example.trelloclone.services;
 import com.example.trelloclone.models.Comment;
 import com.example.trelloclone.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

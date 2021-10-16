@@ -4,17 +4,12 @@ import com.example.trelloclone.models.Board;
 import com.example.trelloclone.models.BoardList;
 import com.example.trelloclone.repositories.BoardListRepository;
 import com.example.trelloclone.repositories.BoardRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import lombok.extern.slf4j.XSlf4j;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,17 +18,14 @@ public class BoardListService {
 
     private final BoardRepository boardRepository;
     private final BoardListRepository boardListRepository;
-    private final ObjectMapper objectMapper;
 
     @Autowired
     public BoardListService(
             BoardRepository boardRepository,
-            BoardListRepository boardListRepository,
-            ObjectMapper objectMapper
+            BoardListRepository boardListRepository
     ) {
         this.boardRepository = boardRepository;
         this.boardListRepository = boardListRepository;
-        this.objectMapper = objectMapper;
     }
 
     public BoardList getSingleBoardList(Long listId) {

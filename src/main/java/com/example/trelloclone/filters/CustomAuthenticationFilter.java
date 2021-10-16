@@ -2,6 +2,7 @@ package com.example.trelloclone.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +26,10 @@ import java.util.Map;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @Slf4j
+@Component
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -37,7 +40,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        Map<String, String> requestBody = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+        TypeReference<Map<String, String>> typeReference = new TypeReference<>() {
+        };
+        Map<String, String> requestBody = new ObjectMapper().readValue(request.getInputStream(), typeReference);
         String username = requestBody.get("username");
         String password = requestBody.get("password");
         log.info("Username is: {}", username);

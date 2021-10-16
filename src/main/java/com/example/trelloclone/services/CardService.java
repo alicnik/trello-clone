@@ -7,13 +7,11 @@ import com.example.trelloclone.repositories.BoardListRepository;
 import com.example.trelloclone.repositories.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
-import javax.swing.text.html.Option;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -24,17 +22,14 @@ public class CardService {
 
     private final CardRepository cardRepository;
     private final BoardListRepository boardListRepository;
-    private final EntityManager entityManager;
 
     @Autowired
     public CardService(
             CardRepository cardRepository,
-            BoardListRepository boardListRepository,
-            EntityManager entityManager
+            BoardListRepository boardListRepository
     ) {
         this.cardRepository = cardRepository;
         this.boardListRepository = boardListRepository;
-        this.entityManager = entityManager;
     }
 
     public List<Card> getAllCards() {
@@ -78,7 +73,7 @@ public class CardService {
         patchUpdate.forEach((key, value) -> {
             Field field = ReflectionUtils.findField(Card.class, key);
             if (field == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Property " + key +" does not exist");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Property " + key + " does not exist");
             }
             field.setAccessible(true);
             ReflectionUtils.setField(field, cardToUpdate, value);

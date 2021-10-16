@@ -1,6 +1,5 @@
 package com.example.trelloclone.controllers;
 
-import com.example.trelloclone.controllers.helpers.BoardListTitleChange;
 import com.example.trelloclone.models.BoardList;
 import com.example.trelloclone.services.BoardListService;
 import org.springframework.beans.factory.annotation.Autowired;

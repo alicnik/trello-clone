@@ -1,5 +1,6 @@
 package com.example.trelloclone.helpers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,7 +26,8 @@ public class AuthenticationHelper {
                 .content(content);
         mockMvc.perform(request).andDo(mvcResult -> {
             String responseBody = mvcResult.getResponse().getContentAsString();
-            Map<String, String> bodyObject = objectMapper.readValue(responseBody, Map.class);
+            TypeReference<Map<String, String>> typeReference = new TypeReference<>(){};
+            Map<String, String> bodyObject = objectMapper.readValue(responseBody, typeReference);
             token.set(bodyObject.get("access_token"));
         });
         return token.get();
