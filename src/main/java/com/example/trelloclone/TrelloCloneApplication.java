@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
@@ -29,7 +30,8 @@ public class TrelloCloneApplication {
             BoardRepository boardRepository,
             BoardListRepository boardListRepository,
             CardRepository cardRepository,
-            CommentRepository commentRepository
+            CommentRepository commentRepository,
+            LabelRepository labelRepository
     ) {
         return args -> {
             AppUser alicnik = AppUser.builder()
@@ -75,11 +77,15 @@ public class TrelloCloneApplication {
                     .archived(false)
                     .build();
 
+            Label firstLabel = Label.builder().name("First label").build();
+            Label secondLabel = Label.builder().name("Second label").build();
+
             Card firstCard = Card.builder()
                     .title("First card")
                     .author(alicnik)
                     .boardList(firstList)
                     .board(firstBoard)
+                    .labels(List.of(firstLabel, secondLabel))
                     .build();
 
             Card secondCard = Card.builder()
@@ -119,6 +125,7 @@ public class TrelloCloneApplication {
             appUserRepository.saveAll(List.of(alicnik, chloe));
             boardRepository.saveAll(List.of(firstBoard, secondBoard));
             boardListRepository.saveAll(List.of(firstList, secondList, thirdList));
+            labelRepository.saveAll(List.of(firstLabel, secondLabel));
             cardRepository.saveAll(List.of(firstCard, secondCard, thirdCard, fourthCard, fifthCard));
             commentRepository.save(comment);
         };

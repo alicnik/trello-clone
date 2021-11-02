@@ -76,9 +76,25 @@ public class Card {
             joinColumns = {@JoinColumn(name = "card_id")},
             inverseJoinColumns = @JoinColumn(name = "label_id")
     )
+    @JsonIgnoreProperties("cards")
     private List<Label> labels;
 
     @Column
     @OneToMany(mappedBy = "parentCard", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"parentCard", "linkedCards"})
     private List<Comment> comments;
+
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH
+            })
+    @JoinTable(
+            name = "comment_linked_card",
+            joinColumns = {@JoinColumn(name = "card_id")},
+            inverseJoinColumns = @JoinColumn(name = "comment_id")
+    )
+    private List<Comment> linkedComments;
 }

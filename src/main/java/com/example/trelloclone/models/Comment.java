@@ -56,7 +56,7 @@ public class Comment {
                     CascadeType.REFRESH
             })
     @JoinTable(
-            name = "card_labels",
+            name = "comment_linked_card",
             joinColumns = {@JoinColumn(name = "comment_id")},
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
