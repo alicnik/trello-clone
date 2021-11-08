@@ -46,12 +46,20 @@ public class AppUser {
     private String password;
 
     @Column
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+    })
     @JsonIgnoreProperties("owner")
     private List<Board> boards;
 
     @Column
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+    })
     @JsonIgnoreProperties("author")
     private List<Card> cards;
 

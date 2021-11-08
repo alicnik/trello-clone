@@ -1,19 +1,16 @@
 package com.example.trelloclone.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "lists")
-@Data
-//@Getter
-//@Setter
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,16 +33,16 @@ public class BoardList {
     @JsonIgnoreProperties("lists")
     private Board board;
 
-    @Column
-    @OneToMany(mappedBy = "boardList", cascade = CascadeType.ALL)
+    @OrderColumn
+    @OneToMany(mappedBy = "boardList", cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+    })
     @JsonIgnoreProperties("boardList")
     private List<Card> cards;
 
-    @Column(name = "position")
-    private int position;
-
     @Column
     private boolean archived;
-
 
 }

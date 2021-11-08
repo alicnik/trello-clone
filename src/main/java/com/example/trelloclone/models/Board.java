@@ -42,7 +42,7 @@ public class Board {
     @JsonIgnoreProperties({"boards", "cards"})
     private AppUser owner;
 
-    @Column
+    @OrderColumn(name = "LIST_ORDER")
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("board")
     private List<BoardList> lists;
