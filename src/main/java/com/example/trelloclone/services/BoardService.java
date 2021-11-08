@@ -23,7 +23,7 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public Optional<Board> getSingleBoard(Long boardId) {
+    public Optional<Board> getSingleBoard(String boardId) {
         return boardRepository.findById(boardId);
     }
 
@@ -35,7 +35,7 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    public void deleteBoard(Long boardId) {
+    public void deleteBoard(String boardId) {
         boardRepository.deleteById(boardId);
     }
 }

@@ -17,7 +17,7 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public Optional<Comment> getSingleComment(Long id) {
+    public Optional<Comment> getSingleComment(String id) {
         return commentRepository.findById(id);
     }
 

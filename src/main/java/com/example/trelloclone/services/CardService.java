@@ -36,7 +36,7 @@ public class CardService {
         return cardRepository.findAll();
     }
 
-    public Card getSingleCard(Long cardId) throws Exception {
+    public Card getSingleCard(String cardId) throws Exception {
         Optional<Card> foundCard = cardRepository.findById(cardId);
         if (foundCard.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Card not found");
@@ -44,7 +44,7 @@ public class CardService {
         return foundCard.get();
     }
 
-    public Card createNewCard(Long listId, String title, AppUser author) {
+    public Card createNewCard(String listId, String title, AppUser author) {
         Optional<BoardList> boardList = boardListRepository.findById(listId);
         if (boardList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "List not found");
@@ -61,7 +61,7 @@ public class CardService {
 
     }
 
-    public Card updateCard(Long cardId, Map<String, Object> patchUpdate) {
+    public Card updateCard(String cardId, Map<String, Object> patchUpdate) {
         Optional<Card> cardToFind = cardRepository.findById(cardId);
         if (cardToFind.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Card does not exist");
@@ -82,7 +82,7 @@ public class CardService {
         return cardRepository.save(cardToUpdate);
     }
 
-    public List<Card> getListCards(Long listId) {
+    public List<Card> getListCards(String listId) {
         return cardRepository.findCardsByBoardListId(listId);
     }
 }

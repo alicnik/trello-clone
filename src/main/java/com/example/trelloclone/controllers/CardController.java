@@ -35,11 +35,11 @@ public class CardController {
 
     @GetMapping(path = "/cards/{cardId}")
     public Card getSingleCard(@PathVariable String cardId) throws Exception {
-        return cardService.getSingleCard(Long.valueOf(cardId));
+        return cardService.getSingleCard(cardId);
     }
 
     @GetMapping(path = "/{listId}/cards")
-    public List<Card> getListCards(@PathVariable Long listId) {
+    public List<Card> getListCards(@PathVariable String listId) {
         return cardService.getListCards(listId);
     }
 
@@ -51,13 +51,13 @@ public class CardController {
     ) {
         URI uri = URIFactory.create();
         AppUser appUser = appUserService.getUserByUsername(principal.getName());
-        Card createdCard = cardService.createNewCard(Long.valueOf(listId), newCard.title, appUser);
+        Card createdCard = cardService.createNewCard(listId, newCard.title, appUser);
         return ResponseEntity.created(uri).body(createdCard);
     }
 
     @PatchMapping(path = "/cards/{cardId}")
     public Card updateCard(@PathVariable String cardId, @RequestBody Map<String, Object> body) {
-        return cardService.updateCard(Long.valueOf(cardId), body);
+        return cardService.updateCard(cardId, body);
     }
 }
 

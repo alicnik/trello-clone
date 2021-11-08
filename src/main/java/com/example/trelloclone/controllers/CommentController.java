@@ -19,7 +19,7 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Comment> getSingleComment(@PathVariable Long id) {
+    public Optional<Comment> getSingleComment(@PathVariable String id) {
         return commentService.getSingleComment(id);
     }
 

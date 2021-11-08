@@ -3,6 +3,7 @@ package com.example.trelloclone.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,9 +20,10 @@ import java.util.List;
 public class Board {
 
     @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    @GeneratedValue(generator = "UUID2")
+    @GenericGenerator(name = "UUID2", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
 
     @Column(nullable = false)
     private String boardName;
@@ -51,5 +53,9 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("board")
     private List<Card> cards;
+
+    @ElementCollection
+    @OrderColumn
+    private List<String> listOrder;
 
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,8 +22,10 @@ import java.util.List;
 public class BoardList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    @GeneratedValue(generator = "UUID2")
+    @GenericGenerator(name = "UUID2", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
 
     @Column(name = "title", nullable = true)
     private String title;

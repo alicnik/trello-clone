@@ -28,18 +28,18 @@ public class BoardListService {
         this.boardListRepository = boardListRepository;
     }
 
-    public BoardList getSingleBoardList(Long listId) {
+    public BoardList getSingleBoardList(String listId) {
         System.out.println("IN THE SERVICE GETTING A SINGLE LIST");
         return boardListRepository.getById(listId);
     }
 
-    public List<BoardList> getListsForSingleBoard(Long boardId) {
+    public List<BoardList> getListsForSingleBoard(String boardId) {
         Board board = boardRepository.getById(boardId);
         log.info(board.toString());
         return boardListRepository.getBoardListByBoard(board);
     }
 
-    public BoardList createBoardList(Long boardId, BoardList newList) {
+    public BoardList createBoardList(String boardId, BoardList newList) {
         Board board = boardRepository.getById(boardId);
         int listPosition = board.getLists().size();
         newList.setBoard(board);
@@ -47,7 +47,7 @@ public class BoardListService {
         return boardListRepository.save(newList);
     }
 
-    public BoardList updateBoardListTitle(Long listId, String newTitle) throws Exception {
+    public BoardList updateBoardListTitle(String listId, String newTitle) throws Exception {
         Optional<BoardList> boardList = boardListRepository.findById(listId);
         if (boardList.isEmpty()) {
             throw new Exception("List does not exist");
@@ -57,7 +57,7 @@ public class BoardListService {
         return boardListRepository.save(updatedList);
     }
 
-    public void deleteSingleBoardList(Long listId) {
+    public void deleteSingleBoardList(String listId) {
         boardListRepository.deleteById(listId);
     }
 

@@ -29,17 +29,17 @@ public class BoardListController {
 
     @GetMapping(path = "/boards/lists/{listId}")
     public BoardList getSingleBoardList(@PathVariable String listId) {
-        return boardListService.getSingleBoardList(Long.valueOf(listId));
+        return boardListService.getSingleBoardList(listId);
     }
 
     @GetMapping(path = "/boards/{boardId}/lists")
     public List<BoardList> getListsForSingleBoard(@PathVariable String boardId) {
-        return boardListService.getListsForSingleBoard(Long.valueOf(boardId));
+        return boardListService.getListsForSingleBoard(boardId);
     }
 
     @PostMapping(path = "/boards/{boardId}/lists")
     public BoardList createList(@PathVariable String boardId, @RequestBody BoardList newList) {
-        return boardListService.createBoardList(Long.valueOf(boardId), newList);
+        return boardListService.createBoardList(boardId, newList);
     }
 
     @PatchMapping(path = "/boards/lists/{listId}")
@@ -51,13 +51,13 @@ public class BoardListController {
         if (title.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        return boardListService.updateBoardListTitle(Long.valueOf(listId), title.get());
+        return boardListService.updateBoardListTitle(listId, title.get());
     }
 
     @DeleteMapping(path = "/lists/{listId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteBoardList(@PathVariable String listId) {
-        boardListService.deleteSingleBoardList(Long.valueOf(listId));
+        boardListService.deleteSingleBoardList(listId);
     }
 }
 

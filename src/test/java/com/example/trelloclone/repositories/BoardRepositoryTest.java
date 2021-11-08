@@ -44,7 +44,7 @@ public class BoardRepositoryTest {
                 .owner(alex)
                 .boardName("repository test")
                 .build();
-        Long createdBoardId = entityManager.persist(board).getId();
+        String createdBoardId = entityManager.persist(board).getId();
 
         Optional<Board> foundBoard = boardRepository.findById(createdBoardId);
         assertTrue(foundBoard.isPresent());

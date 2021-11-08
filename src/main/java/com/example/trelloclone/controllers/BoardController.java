@@ -38,7 +38,7 @@ public class BoardController {
 
     @GetMapping(path = "{boardId}")
     public Optional<Board> getSingleBoard(@PathVariable String boardId) {
-        return boardService.getSingleBoard(Long.valueOf(boardId));
+        return boardService.getSingleBoard(boardId);
     }
 
     @PostMapping
@@ -53,7 +53,7 @@ public class BoardController {
     @DeleteMapping(path = "{boardId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteBoard(@PathVariable String boardId) {
-        boardService.deleteBoard(Long.valueOf(boardId));
+        boardService.deleteBoard(boardId);
     }
 
 }

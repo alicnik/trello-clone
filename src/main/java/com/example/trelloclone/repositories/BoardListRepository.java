@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BoardListRepository extends JpaRepository<BoardList, Long> {
+public interface BoardListRepository extends JpaRepository<BoardList, String> {
 
     List<BoardList> getBoardListByBoard(Board board);
 }
