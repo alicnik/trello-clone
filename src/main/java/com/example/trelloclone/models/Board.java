@@ -3,6 +3,7 @@ package com.example.trelloclone.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -33,17 +34,20 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime created;
 
-    @ManyToOne(cascade = {
+    @ManyToOne(
+        cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.REFRESH,
-    }, optional = false)
+        },
+        optional = false
+    )
     @JoinColumn(name = "board_owner")
     @JsonIgnoreProperties({"boards", "cards"})
     private AppUser owner;
 
-    @OrderColumn(name = "LIST_ORDER")
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OrderColumn
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("board")
     private List<BoardList> lists;
 

@@ -46,7 +46,6 @@ public class Card {
             CascadeType.MERGE,
             CascadeType.REFRESH,
     })
-    @JoinColumn(name = "card_list")
     @JsonIgnoreProperties({"cards", "board"})
     private BoardList boardList;
 

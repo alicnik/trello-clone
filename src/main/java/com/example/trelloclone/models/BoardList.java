@@ -21,24 +21,15 @@ public class BoardList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = true)
+    @Column(name = "title")
     private String title;
 
-    @ManyToOne(cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-    })
-    @JoinColumn(name = "list_board")
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     @JsonIgnoreProperties("lists")
     private Board board;
 
     @OrderColumn
-    @OneToMany(mappedBy = "boardList", cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-    })
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("boardList")
     private List<Card> cards;
 

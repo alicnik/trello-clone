@@ -40,35 +40,29 @@ public class TrelloCloneApplication {
                     .password(bCryptPasswordEncoder().encode("alicnik"))
                     .build();
 
-            AppUser chloe = AppUser.builder()
-                    .username("chloe")
-                    .emailAddress("chloe@gmail.com")
-                    .password(bCryptPasswordEncoder().encode("chloe"))
-                    .build();
-
-            appUserRepository.saveAll(List.of(alicnik, chloe));
-
             Card firstCard = Card.builder()
-                    .title("Take out rubbish")
+                    .title("First card")
                     .build();
-
-            cardRepository.saveAll(List.of(firstCard));
 
             BoardList firstList = BoardList.builder()
                     .title("First List")
                     .cards(List.of(firstCard))
                     .build();
 
-            boardListRepository.saveAll(List.of(firstList));
+            BoardList secondList = BoardList.builder()
+                    .title("Second List")
+                    .build();
 
             Board firstBoard = Board.builder()
                     .boardName("First Board")
+                    .lists(List.of(firstList, secondList))
                     .owner(alicnik)
-                    .lists(List.of(firstList))
-                    .cards(List.of(firstCard))
                     .build();
 
+            appUserRepository.saveAll(List.of(alicnik));
             boardRepository.saveAll(List.of(firstBoard));
+
+
 
         };
     }
