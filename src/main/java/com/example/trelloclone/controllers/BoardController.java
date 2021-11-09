@@ -51,7 +51,7 @@ public class BoardController {
     }
 
     @PutMapping(path = "{boardId}")
-    public Board updateBoard(@PathVariable Long boardId, @RequestBody Board newBoard) {
+    public Board updateBoard(@PathVariable String boardId, @RequestBody Board newBoard) {
         return boardService.updateBoard(boardId, newBoard);
     }
 

@@ -39,7 +39,7 @@ public class BoardService {
         boardRepository.deleteById(boardId);
     }
 
-    public Board updateBoard(Long boardId, Board newBoard) {
+    public Board updateBoard(String boardId, Board newBoard) {
         Board board = boardRepository.getById(boardId);
         board.setLists(newBoard.getLists());
         return boardRepository.save(board);
