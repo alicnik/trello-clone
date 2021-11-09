@@ -23,25 +23,19 @@ public class BoardList {
     @GenericGenerator(name = "UUID2", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @Column(name = "title", nullable = true)
+    @Column(name = "title")
     private String title;
 
-    @ManyToOne(cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-    })
-    @JoinColumn(name = "list_board")
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     @JsonIgnoreProperties("lists")
     private Board board;
 
-    @Column
-    @OneToMany(mappedBy = "boardList", cascade = CascadeType.ALL)
+    @OrderColumn
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("boardList")
     private List<Card> cards;
 
     @Column
     private boolean archived;
-
 
 }

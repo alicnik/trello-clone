@@ -38,4 +38,10 @@ public class BoardService {
     public void deleteBoard(String boardId) {
         boardRepository.deleteById(boardId);
     }
+
+    public Board updateBoard(Long boardId, Board newBoard) {
+        Board board = boardRepository.getById(boardId);
+        board.setLists(newBoard.getLists());
+        return boardRepository.save(board);
+    }
 }

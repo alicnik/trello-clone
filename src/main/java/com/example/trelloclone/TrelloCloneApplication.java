@@ -40,94 +40,30 @@ public class TrelloCloneApplication {
                     .password(bCryptPasswordEncoder().encode("alicnik"))
                     .build();
 
-            AppUser chloe = AppUser.builder()
-                    .username("chloe")
-                    .emailAddress("chloe@gmail.com")
-                    .password(bCryptPasswordEncoder().encode("chloe"))
-                    .build();
-
-            Board firstBoard = Board.builder()
-                    .boardName("To-Do List")
-                    .background("green")
-                    .owner(alicnik)
-                    .build();
-
-            Board secondBoard = Board.builder()
-                    .boardName("Second Board")
-                    .background("blue")
-                    .owner(alicnik)
+            Card firstCard = Card.builder()
+                    .title("First card")
                     .build();
 
             BoardList firstList = BoardList.builder()
-                    .board(firstBoard)
                     .title("First List")
-                    .archived(false)
+                    .cards(List.of(firstCard))
                     .build();
 
             BoardList secondList = BoardList.builder()
-                    .board(firstBoard)
                     .title("Second List")
-                    .position(1)
-                    .archived(false)
                     .build();
 
-            BoardList thirdList = BoardList.builder()
-                    .board(secondBoard)
-                    .title("Third List")
-                    .archived(false)
+            Board firstBoard = Board.builder()
+                    .boardName("First Board")
+                    .lists(List.of(firstList, secondList))
+                    .owner(alicnik)
                     .build();
 
-            Label firstLabel = Label.builder().name("First label").build();
-            Label secondLabel = Label.builder().name("Second label").build();
+            appUserRepository.saveAll(List.of(alicnik));
+            boardRepository.saveAll(List.of(firstBoard));
 
-            Card firstCard = Card.builder()
-                    .title("First card")
-                    .author(alicnik)
-                    .boardList(firstList)
-                    .board(firstBoard)
-                    .labels(List.of(firstLabel, secondLabel))
-                    .build();
 
-            Card secondCard = Card.builder()
-                    .title("Second card")
-                    .author(alicnik)
-                    .boardList(firstList)
-                    .board(firstBoard)
-                    .build();
 
-            Card thirdCard = Card.builder()
-                    .title("Third card")
-                    .author(alicnik)
-                    .boardList(firstList)
-                    .board(firstBoard)
-                    .build();
-
-            Card fourthCard = Card.builder()
-                    .title("Fourth card")
-                    .author(alicnik)
-                    .boardList(firstList)
-                    .board(firstBoard)
-                    .build();
-
-            Card fifthCard = Card.builder()
-                    .title("Fifth card")
-                    .author(alicnik)
-                    .boardList(firstList)
-                    .board(firstBoard)
-                    .build();
-
-            Comment comment = Comment.builder()
-                    .author(chloe)
-                    .parentCard(firstCard)
-                    .body("This is my comment!")
-                    .build();
-
-            appUserRepository.saveAll(List.of(alicnik, chloe));
-            boardRepository.saveAll(List.of(firstBoard, secondBoard));
-            boardListRepository.saveAll(List.of(firstList, secondList, thirdList));
-            labelRepository.saveAll(List.of(firstLabel, secondLabel));
-            cardRepository.saveAll(List.of(firstCard, secondCard, thirdCard, fourthCard, fifthCard));
-            commentRepository.save(comment);
         };
     }
 

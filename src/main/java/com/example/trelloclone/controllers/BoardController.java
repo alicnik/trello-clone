@@ -50,6 +50,11 @@ public class BoardController {
         return ResponseEntity.created(uri).body(board);
     }
 
+    @PutMapping(path = "{boardId}")
+    public Board updateBoard(@PathVariable Long boardId, @RequestBody Board newBoard) {
+        return boardService.updateBoard(boardId, newBoard);
+    }
+
     @DeleteMapping(path = "{boardId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteBoard(@PathVariable String boardId) {

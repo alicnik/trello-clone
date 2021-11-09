@@ -35,17 +35,20 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime created;
 
-    @ManyToOne(cascade = {
+    @ManyToOne(
+        cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.REFRESH,
-    }, optional = false)
+        },
+        optional = false
+    )
     @JoinColumn(name = "board_owner")
     @JsonIgnoreProperties({"boards", "cards"})
     private AppUser owner;
 
-    @Column
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OrderColumn
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("board")
     private List<BoardList> lists;
 

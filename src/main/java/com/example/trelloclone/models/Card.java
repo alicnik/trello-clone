@@ -49,7 +49,6 @@ public class Card {
             CascadeType.MERGE,
             CascadeType.REFRESH,
     })
-    @JoinColumn(name = "card_list")
     @JsonIgnoreProperties({"cards", "board"})
     private BoardList boardList;
 
@@ -83,7 +82,11 @@ public class Card {
     private List<Label> labels;
 
     @Column
-    @OneToMany(mappedBy = "parentCard", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parentCard", cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+    })
     @JsonIgnoreProperties({"parentCard", "linkedCards"})
     private List<Comment> comments;
 

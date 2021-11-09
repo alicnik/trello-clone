@@ -41,9 +41,7 @@ public class BoardListService {
 
     public BoardList createBoardList(String boardId, BoardList newList) {
         Board board = boardRepository.getById(boardId);
-        int listPosition = board.getLists().size();
         newList.setBoard(board);
-        newList.setPosition(listPosition);
         return boardListRepository.save(newList);
     }
 
