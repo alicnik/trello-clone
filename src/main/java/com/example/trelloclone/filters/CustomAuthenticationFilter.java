@@ -39,16 +39,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        TypeReference<Map<String, String>> typeReference = new TypeReference<>() {
-        };
+        TypeReference<Map<String, String>> typeReference = new TypeReference<>() {};
         Map<String, String> requestBody = new ObjectMapper().readValue(request.getInputStream(), typeReference);
         String username = requestBody.get("username");
         String password = requestBody.get("password");
-        log.info("Username is: {}", username);
-        log.info("Password is: {}", password);
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         return authenticationManager.authenticate(authenticationToken);
-
     }
 
     //  When login is successful

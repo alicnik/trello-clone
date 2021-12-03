@@ -5,7 +5,10 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "lists")
@@ -19,8 +22,8 @@ public class BoardList {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "UUID2")
-    @GenericGenerator(name = "UUID2", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "UUIDv4")
+    @GenericGenerator(name = "UUIDv4", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
     @Column(name = "title")
@@ -31,8 +34,8 @@ public class BoardList {
     private Board board;
 
     @OrderColumn
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("boardList")
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE })
+    @JsonIgnoreProperties(value = "boardList", allowSetters = true, allowGetters = true)
     private List<Card> cards;
 
     @Column

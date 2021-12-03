@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
+import java.util.Set;
 
 
 @SpringBootApplication
@@ -44,13 +45,26 @@ public class TrelloCloneApplication {
                     .title("First card")
                     .build();
 
+            Card secondCard = Card.builder()
+                    .title("Second card")
+                    .build();
+
+            Card thirdCard = Card.builder()
+                    .title("Third card")
+                    .build();
+
+            Card fourthCard = Card.builder()
+                    .title("Fourth card")
+                    .build();
+
             BoardList firstList = BoardList.builder()
                     .title("First List")
-                    .cards(List.of(firstCard))
+                    .cards(List.of(firstCard, secondCard, thirdCard))
                     .build();
 
             BoardList secondList = BoardList.builder()
                     .title("Second List")
+                    .cards(List.of(fourthCard))
                     .build();
 
             Board firstBoard = Board.builder()
@@ -59,6 +73,7 @@ public class TrelloCloneApplication {
                     .owner(alicnik)
                     .build();
 
+            cardRepository.saveAll(List.of(firstCard, secondCard, thirdCard, fourthCard));
             appUserRepository.saveAll(List.of(alicnik));
             boardRepository.saveAll(List.of(firstBoard));
 

@@ -2,6 +2,7 @@ package com.example.trelloclone.services;
 
 import com.example.trelloclone.models.Board;
 import com.example.trelloclone.models.BoardList;
+import com.example.trelloclone.models.Card;
 import com.example.trelloclone.repositories.BoardListRepository;
 import com.example.trelloclone.repositories.BoardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,5 +62,16 @@ public class BoardListService {
 
     public List<BoardList> getAllBoardLists() {
         return boardListRepository.findAll();
+    }
+
+    public Board updateBoardListCards(String boardId, String listId, List<Card> newCards) throws Exception {
+        Optional<BoardList> boardList = boardListRepository.findById(listId);
+        if (boardList.isEmpty()) {
+            throw new Exception("List does not exist");
+        }
+        BoardList listToUpdate = boardList.get();
+        listToUpdate.setCards(newCards);
+        boardListRepository.save(listToUpdate);
+        return boardRepository.getById(boardId);
     }
 }

@@ -47,7 +47,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(STATELESS);
 
-        AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher("/api/v1/login", "POST");
 
         httpSecurity.authorizeRequests().antMatchers("/api/v1/login").permitAll();
         httpSecurity.authorizeRequests().antMatchers("/api/v1/register").permitAll();
@@ -55,6 +54,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //        httpSecurity.authorizeRequests().anyRequest().authenticated();
 
         CustomAuthenticationFilter authenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+
+        AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher("/api/v1/login", "POST");
         authenticationFilter.setRequiresAuthenticationRequestMatcher(requestMatcher);
 
         httpSecurity.addFilter(authenticationFilter);
@@ -72,7 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(List.of("*"));
-        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE", "OPTIONS"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(List.of("authorization", "content-type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);

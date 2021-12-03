@@ -19,8 +19,8 @@ public class Card {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "UUID2")
-    @GenericGenerator(name = "UUID2", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "UUIDv4")
+    @GenericGenerator(name = "UUIDv4", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
     @Column(name = "title")
@@ -44,12 +44,8 @@ public class Card {
     @JsonIgnoreProperties({"lists", "cards"})
     private Board board;
 
-    @ManyToOne(cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-    })
-    @JsonIgnoreProperties({"cards", "board"})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @JsonIgnoreProperties(value = {"cards", "board"}, allowSetters = true, allowGetters = true)
     private BoardList boardList;
 
     @ManyToMany(

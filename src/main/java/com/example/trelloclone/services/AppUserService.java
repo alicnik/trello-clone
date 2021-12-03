@@ -1,9 +1,11 @@
 package com.example.trelloclone.services;
 
 import com.example.trelloclone.models.AppUser;
+import com.example.trelloclone.models.Board;
 import com.example.trelloclone.repositories.AppUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,6 +57,14 @@ public class AppUserService implements UserDetailsService {
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         return new User(appUser.getUsername(), appUser.getPassword(), authorities);
+    }
+
+    public List<Board> getUsersBoards(String username) {
+        AppUser appUser = appUserRepository.findByUsername(username);
+        if (appUser == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return appUser.getBoards();
     }
 }
 

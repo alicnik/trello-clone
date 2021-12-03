@@ -21,8 +21,8 @@ public class Board {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "UUID2")
-    @GenericGenerator(name = "UUID2", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "UUIDv4")
+    @GenericGenerator(name = "UUIDv4", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
     @Column(nullable = false)

@@ -1,6 +1,7 @@
 package com.example.trelloclone.controllers;
 
 import com.example.trelloclone.models.AppUser;
+import com.example.trelloclone.models.Board;
 import com.example.trelloclone.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -42,6 +44,12 @@ public class AppUserController {
         );
         AppUser newAppUser = appUserService.createUser(appUser);
         return ResponseEntity.created(uri).body(newAppUser);
+    }
+
+    @GetMapping("/{username}/boards")
+    public ResponseEntity<List<Board>> getUsersBoards(@PathVariable String username) {
+        List<Board> boards = appUserService.getUsersBoards(username);
+        return ResponseEntity.ok().body(boards);
     }
 
 }

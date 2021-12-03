@@ -1,9 +1,12 @@
 package com.example.trelloclone.controllers;
 
+import com.example.trelloclone.models.Board;
 import com.example.trelloclone.models.BoardList;
+import com.example.trelloclone.models.Card;
 import com.example.trelloclone.services.BoardListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -52,6 +55,12 @@ public class BoardListController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         return boardListService.updateBoardListTitle(listId, title.get());
+
+    }
+    @PutMapping(path = "/boards/{boardId}/lists/{listId}/cards")
+    public ResponseEntity<Board> updateBoardListCards(@PathVariable String boardId,@PathVariable String listId, @RequestBody List<Card> newCards) throws Exception {
+        Board updatedBoard = boardListService.updateBoardListCards(boardId, listId, newCards);
+        return ResponseEntity.ok().body(updatedBoard);
     }
 
     @DeleteMapping(path = "/lists/{listId}")
