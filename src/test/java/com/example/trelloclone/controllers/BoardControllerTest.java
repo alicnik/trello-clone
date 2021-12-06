@@ -54,7 +54,7 @@ class BoardControllerTest {
 
     @Test
     void createNewBoard() throws Exception {
-        NewBoard newBoard = new NewBoard( "integration-test");
+        NewBoard newBoard = new NewBoard( "integration-test", "blue", "blue");
 
         RequestBuilder request = MockMvcRequestBuilders.post("/api/v1/boards")
                 .header("Authorization", "Bearer " + token)

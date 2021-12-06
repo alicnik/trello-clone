@@ -41,11 +41,20 @@ public class BoardController {
         return boardService.getSingleBoard(boardId);
     }
 
+    @PostMapping(path="{boardId}")
+    public ResponseEntity<Board> starBoard(@PathVariable String boardId, Principal principal) {
+//        AppUser appUser = appUserService.getUserByUsername(principal.getName());
+        AppUser appUser = appUserService.getUserByUsername("alicnik");
+        Board board = boardService.starBoard(boardId, appUser);
+        return ResponseEntity.ok().body(board);
+    }
+
     @PostMapping
     public ResponseEntity<Board> createBoard(@RequestBody NewBoard body, Principal principal) {
         log.info(body.toString());
-        AppUser appUser = appUserService.getUserByUsername(principal.getName());
-        Board board = boardService.createBoard(body.boardName, appUser);
+        AppUser appUser = appUserService.getUserByUsername("alicnik");
+//        AppUser appUser = appUserService.getUserByUsername(principal.getName());
+        Board board = boardService.createBoard(body.boardName, body.background, body.backgroundThumbnail, appUser);
         URI uri = URIFactory.create();
         return ResponseEntity.created(uri).body(board);
     }

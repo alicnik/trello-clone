@@ -54,7 +54,7 @@ public class AppUser {
             CascadeType.MERGE,
             CascadeType.REFRESH,
     })
-    @JsonIgnoreProperties("owner")
+    @JsonIgnoreProperties({"owner"})
     private List<Board> boards;
 
     @Column
@@ -80,6 +80,21 @@ public class AppUser {
     )
     @JsonIgnoreProperties("members")
     private List<Card> cardMemberships;
+
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH
+            })
+    @JoinTable(
+            name = "starred_boards",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = @JoinColumn(name = "board_id")
+    )
+    @JsonIgnoreProperties({"starredBy", "owner"})
+    private List<Board> starredBoards;
 
     public static class UserLogin {
         public String username;

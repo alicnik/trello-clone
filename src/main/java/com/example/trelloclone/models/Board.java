@@ -30,6 +30,7 @@ public class Board {
 
     private String description;
     private String background;
+    private String backgroundThumbnail;
 
     @Column(name = "created", columnDefinition = "TIMESTAMP")
     @CreationTimestamp
@@ -57,8 +58,19 @@ public class Board {
     @JsonIgnoreProperties("board")
     private List<Card> cards;
 
-    @ElementCollection
-    @OrderColumn
-    private List<String> listOrder;
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH
+            })
+    @JoinTable(
+            name = "starred_boards",
+            joinColumns = {@JoinColumn(name = "board_id")},
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @JsonIgnoreProperties({"starredBoards", "boards"})
+    private List<AppUser> starredBy;
 
 }

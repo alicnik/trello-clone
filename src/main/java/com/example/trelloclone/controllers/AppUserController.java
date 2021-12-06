@@ -29,7 +29,7 @@ public class AppUserController {
         return ResponseEntity.ok().body(allAppUsers);
     }
 
-    @GetMapping(path = "{username}")
+    @GetMapping(path = "/users/{username}")
     public ResponseEntity<AppUser> findByUsername(@PathVariable("username") String username) {
         AppUser appUser = appUserService.getUserByUsername(username);
         return ResponseEntity.ok().body(appUser);

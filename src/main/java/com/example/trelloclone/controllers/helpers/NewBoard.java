@@ -7,4 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class NewBoard {
     public String boardName;
+    public String background;
+    public String backgroundThumbnail;
 }

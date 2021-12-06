@@ -69,6 +69,8 @@ public class TrelloCloneApplication {
 
             Board firstBoard = Board.builder()
                     .boardName("First Board")
+                    .background("lightblue")
+                    .backgroundThumbnail("lightblue")
                     .lists(List.of(firstList, secondList))
                     .owner(alicnik)
                     .build();
