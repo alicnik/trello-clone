@@ -8,7 +8,9 @@ import com.example.trelloclone.repositories.BoardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,10 +42,18 @@ public class BoardListService {
         return boardListRepository.getBoardListByBoard(board);
     }
 
-    public BoardList createBoardList(String boardId, BoardList newList) {
-        Board board = boardRepository.getById(boardId);
+    public Board createBoardList(String boardId, BoardList newList) {
+        Optional<Board> optionalBoard = boardRepository.findById(boardId);
+        if (optionalBoard.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found");
+        }
+        Board board = optionalBoard.get();
         newList.setBoard(board);
-        return boardListRepository.save(newList);
+        newList.setCards(List.of());
+        BoardList savedList = boardListRepository.save(newList);
+        board.getLists().add(savedList);
+        Board savedBoard = boardRepository.save(board);
+        return savedBoard;
     }
 
     public BoardList updateBoardListTitle(String listId, String newTitle) throws Exception {

@@ -43,7 +43,7 @@ public class BoardListController {
     }
 
     @PostMapping(path = "/boards/{boardId}/lists")
-    public BoardList createList(@PathVariable String boardId, @RequestBody BoardList newList) {
+    public Board createList(@PathVariable String boardId, @RequestBody BoardList newList) {
         return boardListService.createBoardList(boardId, newList);
     }
 

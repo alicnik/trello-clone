@@ -64,9 +64,13 @@ public class CardService {
                 .build();
         Card savedCard = cardRepository.save(newCard);
         Board boardToUpdate = savedCard.getBoard();
+        System.out.println("Board to update");
+        System.out.println(boardToUpdate);
         Optional<BoardList> listToUpdate = boardToUpdate.getLists().stream().filter(l -> Objects.equals(l.getId(), listId)).findFirst();
+        System.out.println("List to update");
+        System.out.println(listToUpdate);
         if (listToUpdate.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "List to update not found");
         }
         listToUpdate.get().getCards().add(savedCard);
         return boardRepository.save(boardToUpdate);

@@ -44,7 +44,7 @@ public class Card {
 //    @JoinColumn(name = "board_cards")
 //    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 //    @JsonIdentityReference(alwaysAsId = true)
-    @JsonIgnoreProperties({"cards", "lists"})
+    @JsonIgnoreProperties(value = {"cards", "lists"}, allowSetters = true)
     private Board board;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
