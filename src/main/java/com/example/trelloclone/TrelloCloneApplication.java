@@ -72,10 +72,17 @@ public class TrelloCloneApplication {
                     .background("lightblue")
                     .backgroundThumbnail("lightblue")
                     .lists(List.of(firstList, secondList))
+                    .cards(List.of(firstCard, secondCard, thirdCard, fourthCard))
                     .owner(alicnik)
                     .build();
 
-            cardRepository.saveAll(List.of(firstCard, secondCard, thirdCard, fourthCard));
+            firstList.setBoard(firstBoard);
+            secondList.setBoard(firstBoard);
+            firstCard.setBoard(firstBoard);
+            secondCard.setBoard(firstBoard);
+            thirdCard.setBoard(firstBoard);
+            fourthCard.setBoard(firstBoard);
+
             appUserRepository.saveAll(List.of(alicnik));
             boardRepository.saveAll(List.of(firstBoard));
 

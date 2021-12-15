@@ -39,13 +39,12 @@ public class Board {
     @ManyToOne(
         cascade = {
             CascadeType.DETACH,
-            CascadeType.MERGE,
             CascadeType.REFRESH,
         },
         optional = false
     )
     @JoinColumn(name = "board_owner")
-    @JsonIgnoreProperties({"boards", "cards"})
+    @JsonIgnoreProperties({"boards", "cards", "recentBoards", "starredBoards"})
     private AppUser owner;
 
     @OrderColumn
@@ -54,8 +53,8 @@ public class Board {
     private List<BoardList> lists;
 
     @Column
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("board")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"boardList", "board"})
     private List<Card> cards;
 
     @ManyToMany(
@@ -70,7 +69,16 @@ public class Board {
             joinColumns = {@JoinColumn(name = "board_id")},
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonIgnoreProperties({"starredBoards", "boards"})
+    @JsonIgnoreProperties({"starredBoards", "boards", "recentBoards"})
     private List<AppUser> starredBy;
+
+    @OrderColumn
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE })
+    @JsonIgnoreProperties(
+            value = {"starredBoards", "boards", "recentBoards"},
+            allowSetters = true,
+            allowGetters = true
+    )
+    private List<AppUser> recentlyViewedBy;
 
 }

@@ -50,8 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         httpSecurity.authorizeRequests().antMatchers("/api/v1/login").permitAll();
         httpSecurity.authorizeRequests().antMatchers("/api/v1/register").permitAll();
-        httpSecurity.authorizeRequests().anyRequest().permitAll();
-//        httpSecurity.authorizeRequests().anyRequest().authenticated();
+//        httpSecurity.authorizeRequests().anyRequest().permitAll();
+        httpSecurity.authorizeRequests().anyRequest().authenticated();
 
         CustomAuthenticationFilter authenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
 

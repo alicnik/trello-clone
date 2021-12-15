@@ -30,8 +30,12 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public Optional<Board> getSingleBoard(String boardId) {
-        return boardRepository.findById(boardId);
+    public Board getSingleBoard(String boardId) {
+        Optional<Board> board= boardRepository.findById(boardId);
+        if (board.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board does not exist");
+        }
+        return board.get();
     }
 
     public Board createBoard(String boardName, String background, String backgroundThumbnail, AppUser appUser) {
@@ -56,7 +60,7 @@ public class BoardService {
 
     public Board starBoard(String boardId, AppUser appUser) {
         Board board = boardRepository.getById(boardId);
-        List<AppUser> currentStarredBy =board.getStarredBy();
+        List<AppUser> currentStarredBy = board.getStarredBy();
         if (currentStarredBy.contains(appUser)) {
             board.getStarredBy().remove(appUser);
         } else {

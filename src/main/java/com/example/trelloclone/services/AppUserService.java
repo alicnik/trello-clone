@@ -66,5 +66,22 @@ public class AppUserService implements UserDetailsService {
         }
         return appUser.getBoards();
     }
+
+    public AppUser addToUsersRecentBoards(String username, Board board) {
+        AppUser appUser = appUserRepository.findByUsername(username);
+        if (appUser == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        List<Board> recentBoards = appUser.getRecentBoards();
+        recentBoards.remove(board);
+        AppUser updatedUser = appUserRepository.save(appUser);
+        List<Board> updatedUserRecentBoards = updatedUser.getRecentBoards();
+        updatedUserRecentBoards.add(0, board);
+        if (updatedUserRecentBoards.size() > 4) {
+            updatedUserRecentBoards.remove(recentBoards.size() - 1);
+        }
+        return appUserRepository.save(updatedUser);
+
+    }
 }
 

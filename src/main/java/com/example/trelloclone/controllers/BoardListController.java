@@ -32,7 +32,9 @@ public class BoardListController {
 
     @GetMapping(path = "/boards/lists/{listId}")
     public BoardList getSingleBoardList(@PathVariable String listId) {
-        return boardListService.getSingleBoardList(listId);
+        BoardList list= boardListService.getSingleBoardList(listId);
+        System.out.println(list.getBoard());
+        return list;
     }
 
     @GetMapping(path = "/boards/{boardId}/lists")

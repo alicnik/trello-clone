@@ -37,8 +37,9 @@ public class BoardController {
     }
 
     @GetMapping(path = "{boardId}")
-    public Optional<Board> getSingleBoard(@PathVariable String boardId) {
-        return boardService.getSingleBoard(boardId);
+    public ResponseEntity<Board> getSingleBoard(@PathVariable String boardId) {
+        Board board = boardService.getSingleBoard(boardId);
+        return ResponseEntity.ok().body(board);
     }
 
     @PostMapping(path="{boardId}")

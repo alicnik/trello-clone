@@ -3,6 +3,8 @@ package com.example.trelloclone.controllers;
 import com.example.trelloclone.models.AppUser;
 import com.example.trelloclone.models.Board;
 import com.example.trelloclone.services.AppUserService;
+import com.example.trelloclone.services.BoardService;
+import org.hibernate.hql.internal.ast.tree.ResolvableNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +19,11 @@ import java.util.List;
 public class AppUserController {
 
     private final AppUserService appUserService;
+    private final BoardService boardService;
 
     @Autowired
-    public AppUserController(AppUserService appUserService) {
+    public AppUserController(AppUserService appUserService, BoardService boardService) {
+        this.boardService = boardService;
         this.appUserService = appUserService;
     }
 
@@ -50,6 +54,13 @@ public class AppUserController {
     public ResponseEntity<List<Board>> getUsersBoards(@PathVariable String username) {
         List<Board> boards = appUserService.getUsersBoards(username);
         return ResponseEntity.ok().body(boards);
+    }
+
+    @PostMapping("/{username}/boards/{boardId}")
+    public ResponseEntity<AppUser> addBoardToRecents(@PathVariable String username, @PathVariable String boardId) {
+        Board board = boardService.getSingleBoard(boardId);
+        AppUser appUser = appUserService.addToUsersRecentBoards(username, board);
+        return ResponseEntity.ok().body(appUser);
     }
 
 }

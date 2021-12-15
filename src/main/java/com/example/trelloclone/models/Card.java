@@ -1,6 +1,9 @@
 package com.example.trelloclone.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -28,31 +31,30 @@ public class Card {
 
     @ManyToOne(cascade = {
             CascadeType.DETACH,
-            CascadeType.MERGE,
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "card_author")
-    @JsonIgnoreProperties({"boards", "cards", "cardMemberships"})
+    @JsonIgnoreProperties({"boards", "cards", "cardMemberships", "recentBoards", "starredBoards"})
     private AppUser author;
 
     @ManyToOne(cascade = {
             CascadeType.DETACH,
-            CascadeType.MERGE,
             CascadeType.REFRESH,
     })
-    @JoinColumn(name = "board_cards")
-    @JsonIgnoreProperties({"lists", "cards"})
+//    @JoinColumn(name = "board_cards")
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//    @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnoreProperties({"cards", "lists"})
     private Board board;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JsonIgnoreProperties(value = {"cards", "board"}, allowSetters = true, allowGetters = true)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonIgnoreProperties(value = {"cards", "board"}, allowSetters = true)
     private BoardList boardList;
 
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.DETACH,
-                    CascadeType.MERGE,
                     CascadeType.REFRESH
             })
     @JoinTable(
