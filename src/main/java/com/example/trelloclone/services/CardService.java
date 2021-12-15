@@ -1,9 +1,11 @@
 package com.example.trelloclone.services;
 
 import com.example.trelloclone.models.AppUser;
+import com.example.trelloclone.models.Board;
 import com.example.trelloclone.models.BoardList;
 import com.example.trelloclone.models.Card;
 import com.example.trelloclone.repositories.BoardListRepository;
+import com.example.trelloclone.repositories.BoardRepository;
 import com.example.trelloclone.repositories.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import javax.persistence.EntityManager;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,14 +25,17 @@ public class CardService {
 
     private final CardRepository cardRepository;
     private final BoardListRepository boardListRepository;
+    private final BoardRepository boardRepository;
 
     @Autowired
     public CardService(
             CardRepository cardRepository,
-            BoardListRepository boardListRepository
+            BoardListRepository boardListRepository,
+            BoardRepository boardRepository
     ) {
         this.cardRepository = cardRepository;
         this.boardListRepository = boardListRepository;
+        this.boardRepository = boardRepository;
     }
 
     public List<Card> getAllCards() {
@@ -44,7 +50,7 @@ public class CardService {
         return foundCard.get();
     }
 
-    public Card createNewCard(String listId, String title, AppUser author) {
+    public Board createNewCard(String listId, String title, AppUser author) {
         Optional<BoardList> boardList = boardListRepository.findById(listId);
         if (boardList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "List not found");
@@ -56,8 +62,14 @@ public class CardService {
                 .boardList(foundBoardList)
                 .board(foundBoardList.getBoard())
                 .build();
-
-        return cardRepository.save(newCard);
+        Card savedCard = cardRepository.save(newCard);
+        Board boardToUpdate = savedCard.getBoard();
+        Optional<BoardList> listToUpdate = boardToUpdate.getLists().stream().filter(l -> Objects.equals(l.getId(), listId)).findFirst();
+        if (listToUpdate.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        listToUpdate.get().getCards().add(savedCard);
+        return boardRepository.save(boardToUpdate);
 
     }
 

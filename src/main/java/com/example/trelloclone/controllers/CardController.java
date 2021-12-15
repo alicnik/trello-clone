@@ -3,6 +3,7 @@ package com.example.trelloclone.controllers;
 import com.example.trelloclone.controllers.helpers.NewCard;
 import com.example.trelloclone.controllers.helpers.URIFactory;
 import com.example.trelloclone.models.AppUser;
+import com.example.trelloclone.models.Board;
 import com.example.trelloclone.models.Card;
 import com.example.trelloclone.services.AppUserService;
 import com.example.trelloclone.services.CardService;
@@ -44,15 +45,15 @@ public class CardController {
     }
 
     @PostMapping(path = "/{listId}/cards")
-    public ResponseEntity<Card> createNewCard(
+    public ResponseEntity<Board> createNewCard(
             Principal principal,
             @PathVariable String listId,
             @RequestBody NewCard newCard
     ) {
         URI uri = URIFactory.create();
         AppUser appUser = appUserService.getUserByUsername(principal.getName());
-        Card createdCard = cardService.createNewCard(listId, newCard.title, appUser);
-        return ResponseEntity.created(uri).body(createdCard);
+        Board board = cardService.createNewCard(listId, newCard.title, appUser);
+        return ResponseEntity.created(uri).body(board);
     }
 
     @PatchMapping(path = "/cards/{cardId}")
