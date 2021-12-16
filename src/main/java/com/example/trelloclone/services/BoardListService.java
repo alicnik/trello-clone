@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -52,18 +53,17 @@ public class BoardListService {
         newList.setCards(List.of());
         BoardList savedList = boardListRepository.save(newList);
         board.getLists().add(savedList);
-        Board savedBoard = boardRepository.save(board);
-        return savedBoard;
+        return boardRepository.save(board);
     }
 
-    public BoardList updateBoardListTitle(String listId, String newTitle) throws Exception {
+    public Board updateBoardListTitle(String listId, String newTitle) throws Exception {
         Optional<BoardList> boardList = boardListRepository.findById(listId);
         if (boardList.isEmpty()) {
             throw new Exception("List does not exist");
         }
-        boardList.ifPresent(boardList1 -> boardList1.setTitle(newTitle));
-        BoardList updatedList = boardList.get();
-        return boardListRepository.save(updatedList);
+        boardList.ifPresent(list -> list.setTitle(newTitle));
+        BoardList updatedList = boardListRepository.save(boardList.get());
+        return boardRepository.getById(updatedList.getBoard().getId());
     }
 
     public void deleteSingleBoardList(String listId) {

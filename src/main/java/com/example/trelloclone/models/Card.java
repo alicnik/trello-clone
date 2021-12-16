@@ -29,6 +29,9 @@ public class Card {
     @Column(name = "title")
     private String title;
 
+    @Column(length = 5000)
+    private String description;
+
     @ManyToOne(cascade = {
             CascadeType.DETACH,
             CascadeType.REFRESH,

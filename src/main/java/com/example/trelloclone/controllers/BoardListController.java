@@ -48,7 +48,7 @@ public class BoardListController {
     }
 
     @PatchMapping(path = "/boards/lists/{listId}")
-    public BoardList updateBoardListTitle(
+    public Board updateBoardListTitle(
             @PathVariable String listId,
             @RequestBody Map<String, String> body
     ) throws Exception {

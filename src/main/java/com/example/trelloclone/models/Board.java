@@ -69,13 +69,13 @@ public class Board {
             joinColumns = {@JoinColumn(name = "board_id")},
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonIgnoreProperties({"starredBoards", "boards", "recentBoards"})
+    @JsonIgnoreProperties({"starredBoards", "boards", "recentBoards", "cards"})
     private List<AppUser> starredBy;
 
     @OrderColumn
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE })
     @JsonIgnoreProperties(
-            value = {"starredBoards", "boards", "recentBoards"},
+            value = {"starredBoards", "boards", "recentBoards", "cards"},
             allowSetters = true,
             allowGetters = true
     )

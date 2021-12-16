@@ -82,6 +82,10 @@ public class TrelloCloneApplication {
             secondCard.setBoard(firstBoard);
             thirdCard.setBoard(firstBoard);
             fourthCard.setBoard(firstBoard);
+            firstCard.setBoardList(firstList);
+            secondCard.setBoardList(firstList);
+            thirdCard.setBoardList(firstList);
+            fourthCard.setBoardList(secondList);
 
             appUserRepository.saveAll(List.of(alicnik));
             boardRepository.saveAll(List.of(firstBoard));
