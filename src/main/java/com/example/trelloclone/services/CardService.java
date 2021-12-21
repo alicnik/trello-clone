@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -101,11 +102,37 @@ public class CardService {
         });
 
         Card savedCard = cardRepository.save(cardToUpdate);
-        Board board = boardRepository.getById(savedCard.getBoard().getId());
-        return board;
+        return boardRepository.getById(savedCard.getBoard().getId());
     }
 
     public List<Card> getListCards(String listId) {
         return cardRepository.findCardsByBoardListId(listId);
+    }
+
+    public Board deleteCard(String username, String cardId) {
+        Optional<Card> optional = cardRepository.findById(cardId);
+        if (optional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Card not found");
+        }
+
+        Card cardToDelete = optional.get();
+        if (!Objects.equals(cardToDelete.getAuthor().getUsername(), username)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't delete someone else's card");
+        }
+
+        String listId = cardToDelete.getBoardList().getId();
+        String boardId = cardToDelete.getBoardList().getBoard().getId();
+
+        cardRepository.deleteById(cardId);
+
+        BoardList list = boardListRepository.getById(listId);
+        List<Card> newCards = list.getCards().stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        list.setCards(newCards);
+        boardListRepository.save(list);
+
+        Board board = boardRepository.getById(boardId);
+        return board;
     }
 }

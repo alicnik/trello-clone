@@ -60,5 +60,10 @@ public class CardController {
     public Board updateCard(@PathVariable String cardId, @RequestBody Map<String, Object> body) {
         return cardService.updateCard(cardId, body);
     }
+
+    @DeleteMapping("/cards/{cardId}")
+    public Board deleteCard(Principal principal, @PathVariable String cardId) {
+        return cardService.deleteCard(principal.getName(), cardId);
+    }
 }
 
