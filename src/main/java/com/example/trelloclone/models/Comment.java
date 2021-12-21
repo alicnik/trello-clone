@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
@@ -29,9 +33,13 @@ public class Comment {
     @Column
     private String body;
 
-    @Column(name = "created", columnDefinition = "TIMESTAMP")
-    @CreationTimestamp
+    @Column(name="created")
+    @CreatedDate
     private LocalDateTime created;
+
+    @Column(name = "last_modified")
+    @LastModifiedDate
+    private LocalDateTime modified;
 
     @ManyToOne(cascade = {
             CascadeType.DETACH,
@@ -39,7 +47,7 @@ public class Comment {
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "comment_author")
-    @JsonIgnoreProperties("comments")
+    @JsonIgnoreProperties({"comments", "boards", "recentBoards", "starredBoards", "cards"})
     private AppUser author;
 
     @ManyToOne(cascade = {
@@ -47,8 +55,7 @@ public class Comment {
             CascadeType.MERGE,
             CascadeType.REFRESH,
     }, optional = false)
-    @JoinColumn(name = "comment_parent_card")
-    @JsonIgnoreProperties("comments")
+    @JsonIgnoreProperties(value = "comments", allowSetters = true)
     private Card parentCard;
 
     @ManyToMany(

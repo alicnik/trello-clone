@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,14 +35,14 @@ public class BoardList {
     private String title;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
-    @JsonIgnoreProperties({"lists", "cards"})
-//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-//    @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnoreProperties(value = {"lists", "cards"}, allowSetters = true)
     private Board board;
 
     @OrderColumn
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE })
     @JsonIgnoreProperties(value = "boardList", allowSetters = true, allowGetters = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn
     private List<Card> cards;
 
     @Column

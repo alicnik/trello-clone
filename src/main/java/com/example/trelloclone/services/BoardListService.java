@@ -5,6 +5,8 @@ import com.example.trelloclone.models.BoardList;
 import com.example.trelloclone.models.Card;
 import com.example.trelloclone.repositories.BoardListRepository;
 import com.example.trelloclone.repositories.BoardRepository;
+import com.example.trelloclone.repositories.CardRepository;
+import com.example.trelloclone.repositories.CommentRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -22,14 +25,20 @@ public class BoardListService {
 
     private final BoardRepository boardRepository;
     private final BoardListRepository boardListRepository;
+    private final CardRepository cardRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
     public BoardListService(
             BoardRepository boardRepository,
-            BoardListRepository boardListRepository
+            BoardListRepository boardListRepository,
+            CardRepository cardRepository,
+            CommentRepository commentRepository
     ) {
         this.boardRepository = boardRepository;
         this.boardListRepository = boardListRepository;
+        this.cardRepository = cardRepository;
+        this.commentRepository = commentRepository;
     }
 
     public BoardList getSingleBoardList(String listId) {
@@ -66,8 +75,24 @@ public class BoardListService {
         return boardRepository.getById(updatedList.getBoard().getId());
     }
 
-    public void deleteSingleBoardList(String listId) {
+    public Board deleteSingleBoardList(String listId) {
+        Optional<BoardList> optional = boardListRepository.findById(listId);
+        if (optional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "List not found");
+        }
+        String boardId = optional.get().getBoard().getId();
+        optional.get().getCards().forEach(card -> {
+            card.getComments().forEach(comment -> {
+                commentRepository.deleteById(comment.getId());
+            });
+        });
         boardListRepository.deleteById(listId);
+        Board updatedBoard = boardRepository.getById(boardId);
+        List<BoardList> newLists = updatedBoard.getLists().stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        updatedBoard.setLists(newLists);
+        return boardRepository.save(updatedBoard);
     }
 
     public List<BoardList> getAllBoardLists() {
@@ -80,6 +105,7 @@ public class BoardListService {
             throw new Exception("List does not exist");
         }
         BoardList listToUpdate = boardList.get();
+        newCards.forEach(c -> c.setBoardList(listToUpdate));
         listToUpdate.setCards(newCards);
         boardListRepository.save(listToUpdate);
         return boardRepository.getById(boardId);

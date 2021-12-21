@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -48,20 +50,17 @@ public class Board {
     private AppUser owner;
 
     @OrderColumn
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("board")
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
+    @JsonIgnoreProperties(value = "board", allowSetters = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn
     private List<BoardList> lists;
-
-    @Column
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"boardList", "board"})
-    private List<Card> cards;
 
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.DETACH,
-                    CascadeType.MERGE,
+//                    CascadeType.MERGE,
                     CascadeType.REFRESH
             })
     @JoinTable(

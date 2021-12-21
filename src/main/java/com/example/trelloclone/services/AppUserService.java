@@ -73,7 +73,9 @@ public class AppUserService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
         List<Board> recentBoards = appUser.getRecentBoards();
+        log.info("Before removal: {}", recentBoards.size());
         recentBoards.remove(board);
+        log.info("After removal: {}", recentBoards.size());
         AppUser updatedUser = appUserRepository.save(appUser);
         List<Board> updatedUserRecentBoards = updatedUser.getRecentBoards();
         updatedUserRecentBoards.add(0, board);

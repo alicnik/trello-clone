@@ -41,17 +41,23 @@ public class AppUser {
     @Column(nullable = false)
     private String username;
 
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
     @Column(name = "email_address", nullable = false)
     private String emailAddress;
 
-    @Column(nullable = false)
+    @Column
     @JsonProperty(access = WRITE_ONLY)
     private String password;
 
     @Column
     @OneToMany(mappedBy = "owner", cascade = {
             CascadeType.DETACH,
-            CascadeType.MERGE,
+//            CascadeType.MERGE,
             CascadeType.REFRESH,
     })
 //    @JsonIgnoreProperties({"owner"})
@@ -60,7 +66,7 @@ public class AppUser {
     @Column
     @OneToMany(mappedBy = "author", cascade = {
             CascadeType.DETACH,
-            CascadeType.MERGE,
+//            CascadeType.MERGE,
             CascadeType.REFRESH,
     })
     @JsonIgnoreProperties("author")
@@ -69,7 +75,7 @@ public class AppUser {
     @ManyToMany(
             cascade = {
                     CascadeType.DETACH,
-                    CascadeType.MERGE,
+//                    CascadeType.MERGE,
                     CascadeType.REFRESH
             })
     @JoinTable(
@@ -83,7 +89,7 @@ public class AppUser {
     @ManyToMany(
             cascade = {
                     CascadeType.DETACH,
-                    CascadeType.MERGE,
+//                    CascadeType.MERGE,
                     CascadeType.REFRESH
             })
     @JoinTable(

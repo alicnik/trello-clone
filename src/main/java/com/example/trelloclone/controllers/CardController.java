@@ -57,7 +57,7 @@ public class CardController {
     }
 
     @PatchMapping(path = "/cards/{cardId}")
-    public Card updateCard(@PathVariable String cardId, @RequestBody Map<String, Object> body) {
+    public Board updateCard(@PathVariable String cardId, @RequestBody Map<String, Object> body) {
         return cardService.updateCard(cardId, body);
     }
 }

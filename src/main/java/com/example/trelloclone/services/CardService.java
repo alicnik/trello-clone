@@ -7,6 +7,7 @@ import com.example.trelloclone.models.Card;
 import com.example.trelloclone.repositories.BoardListRepository;
 import com.example.trelloclone.repositories.BoardRepository;
 import com.example.trelloclone.repositories.CardRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class CardService {
 
     private final CardRepository cardRepository;
@@ -59,25 +61,28 @@ public class CardService {
         Card newCard = Card.builder()
                 .title(title)
                 .author(author)
-                .boardList(foundBoardList)
-                .board(foundBoardList.getBoard())
+//                .boardList(foundBoardList)
+//                .board(foundBoardList.getBoard())
                 .build();
+        log.info("saving card for the first time");
         Card savedCard = cardRepository.save(newCard);
-        Board boardToUpdate = savedCard.getBoard();
-        System.out.println("Board to update");
-        System.out.println(boardToUpdate);
-        Optional<BoardList> listToUpdate = boardToUpdate.getLists().stream().filter(l -> Objects.equals(l.getId(), listId)).findFirst();
-        System.out.println("List to update");
-        System.out.println(listToUpdate);
-        if (listToUpdate.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "List to update not found");
-        }
-        listToUpdate.get().getCards().add(savedCard);
+
+        foundBoardList.getCards().add(newCard);
+        log.info("saving list");
+        boardListRepository.save(foundBoardList);
+
+        savedCard.setBoardList(foundBoardList);
+        savedCard.setBoard(foundBoardList.getBoard());
+        log.info("saving card for the second time");
+        Card updatedCard = cardRepository.save(savedCard);
+        log.info("card board is {}", updatedCard.getBoard());
+
+        Board boardToUpdate = foundBoardList.getBoard();
         return boardRepository.save(boardToUpdate);
 
     }
 
-    public Card updateCard(String cardId, Map<String, Object> patchUpdate) {
+    public Board updateCard(String cardId, Map<String, Object> patchUpdate) {
         Optional<Card> cardToFind = cardRepository.findById(cardId);
         if (cardToFind.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Card does not exist");
@@ -95,7 +100,9 @@ public class CardService {
             ReflectionUtils.setField(field, cardToUpdate, value);
         });
 
-        return cardRepository.save(cardToUpdate);
+        Card savedCard = cardRepository.save(cardToUpdate);
+        Board board = boardRepository.getById(savedCard.getBoard().getId());
+        return board;
     }
 
     public List<Card> getListCards(String listId) {

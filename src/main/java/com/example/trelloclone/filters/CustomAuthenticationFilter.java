@@ -2,6 +2,8 @@ package com.example.trelloclone.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.trelloclone.models.AppUser;
+import com.example.trelloclone.repositories.AppUserRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -29,10 +31,11 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final AppUserRepository appUserRepository;
 
-    @Autowired
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, AppUserRepository appUserRepository) {
         this.authenticationManager = authenticationManager;
+        this.appUserRepository = appUserRepository;
     }
 
     //  When user tries to log in
@@ -59,9 +62,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
 
-        Map<String, String> tokens = new HashMap<>();
-        tokens.put("access_token", accessToken);
+        AppUser appUser = appUserRepository.findByUsername(user.getUsername());
+
+        Map<String, String> sessionDetails = new HashMap<>();
+        sessionDetails.put("access_token", accessToken);
+        sessionDetails.put("firstName", appUser.getFirstName());
+        sessionDetails.put("lastName", appUser.getLastName());
+        sessionDetails.put("username", appUser.getUsername());
         response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        new ObjectMapper().writeValue(response.getOutputStream(), sessionDetails);
     }
 }

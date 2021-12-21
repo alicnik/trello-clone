@@ -37,9 +37,14 @@ public class TrelloCloneApplication {
         return args -> {
             AppUser alicnik = AppUser.builder()
                     .username("alicnik")
+                    .firstName("Alexander")
+                    .lastName("Nicholas")
                     .emailAddress("alicnik@hotmail.com")
                     .password(bCryptPasswordEncoder().encode("alicnik"))
                     .build();
+
+            appUserRepository.saveAll(List.of(alicnik));
+
 
             Card firstCard = Card.builder()
                     .title("First card")
@@ -57,6 +62,8 @@ public class TrelloCloneApplication {
                     .title("Fourth card")
                     .build();
 
+            cardRepository.saveAll(List.of(firstCard, secondCard, thirdCard, fourthCard));
+
             BoardList firstList = BoardList.builder()
                     .title("First List")
                     .cards(List.of(firstCard, secondCard, thirdCard))
@@ -67,28 +74,48 @@ public class TrelloCloneApplication {
                     .cards(List.of(fourthCard))
                     .build();
 
+            boardListRepository.saveAll(List.of(firstList, secondList));
+
             Board firstBoard = Board.builder()
                     .boardName("First Board")
                     .background("lightblue")
                     .backgroundThumbnail("lightblue")
                     .lists(List.of(firstList, secondList))
-                    .cards(List.of(firstCard, secondCard, thirdCard, fourthCard))
                     .owner(alicnik)
                     .build();
 
+            boardRepository.saveAll(List.of(firstBoard));
+
             firstList.setBoard(firstBoard);
             secondList.setBoard(firstBoard);
+
+            boardListRepository.saveAll(List.of(firstList, secondList));
+
+
             firstCard.setBoard(firstBoard);
             secondCard.setBoard(firstBoard);
             thirdCard.setBoard(firstBoard);
             fourthCard.setBoard(firstBoard);
+
             firstCard.setBoardList(firstList);
             secondCard.setBoardList(firstList);
             thirdCard.setBoardList(firstList);
             fourthCard.setBoardList(secondList);
 
-            appUserRepository.saveAll(List.of(alicnik));
-            boardRepository.saveAll(List.of(firstBoard));
+            firstCard.setAuthor(alicnik);
+            secondCard.setAuthor(alicnik);
+            thirdCard.setAuthor(alicnik);
+            fourthCard.setAuthor(alicnik);
+
+            cardRepository.saveAll(List.of(firstCard, secondCard, thirdCard, fourthCard));
+
+            firstList.setCards(List.of(firstCard, secondCard, thirdCard));
+            secondList.setCards(List.of(fourthCard));
+            boardListRepository.saveAll(List.of(firstList, secondList));
+
+//            firstBoard.setCards(List.of(firstCard, secondCard, thirdCard, fourthCard));
+//            boardRepository.save(firstBoard);
+
 
 
 

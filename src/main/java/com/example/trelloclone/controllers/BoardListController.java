@@ -66,9 +66,8 @@ public class BoardListController {
     }
 
     @DeleteMapping(path = "/lists/{listId}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteBoardList(@PathVariable String listId) {
-        boardListService.deleteSingleBoardList(listId);
+    public Board deleteBoardList(@PathVariable String listId) {
+        return boardListService.deleteSingleBoardList(listId);
     }
 }
 

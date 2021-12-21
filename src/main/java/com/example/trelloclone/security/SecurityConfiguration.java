@@ -2,9 +2,11 @@ package com.example.trelloclone.security;
 
 import com.example.trelloclone.filters.CustomAuthenticationFilter;
 import com.example.trelloclone.filters.CustomAuthorisationFilter;
+import com.example.trelloclone.repositories.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,15 +27,22 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 @Configuration
 @EnableWebSecurity
+@EnableJpaAuditing
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AppUserRepository appUserRepository;
 
     @Autowired
-    public SecurityConfiguration(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public SecurityConfiguration(
+            UserDetailsService userDetailsService,
+            BCryptPasswordEncoder bCryptPasswordEncoder,
+            AppUserRepository appUserRepository
+    ) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.appUserRepository = appUserRepository;
     }
 
     @Override
@@ -53,7 +62,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //        httpSecurity.authorizeRequests().anyRequest().permitAll();
         httpSecurity.authorizeRequests().anyRequest().authenticated();
 
-        CustomAuthenticationFilter authenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+        CustomAuthenticationFilter authenticationFilter = new CustomAuthenticationFilter(
+                authenticationManagerBean(),
+                appUserRepository
+        );
 
         AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher("/api/v1/login", "POST");
         authenticationFilter.setRequiresAuthenticationRequestMatcher(requestMatcher);
