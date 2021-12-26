@@ -57,6 +57,7 @@ public class BoardService {
         List<BoardList> newLists = newBoard.getLists();
         newLists.forEach(l -> l.setBoard(board));
         board.setLists(newLists);
+        board.setBoardName(newBoard.getBoardName());
         return boardRepository.save(board);
     }
 
