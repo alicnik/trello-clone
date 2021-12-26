@@ -35,6 +35,14 @@ public class TrelloCloneApplication {
             LabelRepository labelRepository
     ) {
         return args -> {
+
+            AppUser existing = appUserRepository.findByUsername("alicnik");
+
+            if (existing != null) {
+                return;
+            }
+
+            
             AppUser alicnik = AppUser.builder()
                     .username("alicnik")
                     .firstName("Alexander")
