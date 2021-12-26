@@ -88,12 +88,7 @@ public class AppUser {
     @JsonIgnoreProperties("members")
     private List<Card> cardMemberships = List.of();
 
-    @ManyToMany(
-            cascade = {
-                    CascadeType.DETACH,
-//                    CascadeType.MERGE,
-                    CascadeType.REFRESH
-            })
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "starred_boards",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -104,11 +99,17 @@ public class AppUser {
     private List<Board> starredBoards;
 
     @OrderColumn
-    @OneToMany
+    @ManyToMany
     @JsonIgnoreProperties({"owner"})
-    @JoinColumn
+    @JoinTable(
+            name = "recent_boards",
+            joinColumns = {@JoinColumn(name="user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "board_id")}
+    )
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Board> recentBoards;
+
+
 
     public static class UserLogin {
         public String username;

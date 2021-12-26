@@ -51,7 +51,6 @@ public class BoardController {
 
     @PostMapping
     public ResponseEntity<Board> createBoard(@RequestBody NewBoard body, Principal principal) {
-        log.info(body.toString());
         AppUser appUser = appUserService.getUserByUsername(principal.getName());
         Board board = boardService.createBoard(body.boardName, body.background, body.backgroundThumbnail, appUser);
         URI uri = URIFactory.create();
@@ -68,5 +67,7 @@ public class BoardController {
     public void deleteBoard(@PathVariable String boardId) {
         boardService.deleteBoard(boardId);
     }
+
+    
 
 }

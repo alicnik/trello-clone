@@ -72,15 +72,17 @@ public class Board {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<AppUser> starredBy;
 
-    @OrderColumn
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE })
+    @ManyToMany
     @JsonIgnoreProperties(
             value = {"starredBoards", "boards", "recentBoards", "cards"},
-            allowSetters = true,
-            allowGetters = true
+            allowSetters = true
     )
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn
+    @JoinTable(
+            name = "recent_boards",
+            joinColumns = {@JoinColumn(name = "board_id")},
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<AppUser> recentlyViewedBy;
 
 }

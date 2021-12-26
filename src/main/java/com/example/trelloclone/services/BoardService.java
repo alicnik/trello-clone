@@ -60,26 +60,30 @@ public class BoardService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found");
         }
 
-//        Board board = optional.get();
-//
-//        for (AppUser user : board.getRecentlyViewedBy()) {
-//            user.getRecentBoards().remove(board);
-//            appUserRepository.save(user);
-//        }
-//
-//        for (AppUser user : board.getStarredBy()) {
-//            user.getStarredBoards().remove(board);
-//            appUserRepository.save(user);
-//        }
-//
-//        board.getRecentlyViewedBy().clear();
-//        board.getStarredBy().clear();
-//
-//        log.info("Saving");
-//        boardRepository.save(board);
-//
-//
-//        log.info("Deleting");
+        Board board = optional.get();
+
+        log.info("Assessing users");
+        log.info(String.valueOf(board.getRecentlyViewedBy().size()));
+
+        for (AppUser user : board.getRecentlyViewedBy()) {
+            log.info("recently viewed user is {}", user.toString());
+            List<Board> filteredBoards = user.getRecentBoards().stream()
+                    .filter(b -> !Objects.equals(b.getId(), boardId))
+                    .collect(Collectors.toList());
+            log.info(String.valueOf(filteredBoards.size()));
+            user.setRecentBoards(filteredBoards);
+            appUserRepository.save(user);
+        }
+
+        for (AppUser user : board.getStarredBy()) {
+            log.info("starred by user is {}", user.toString());
+            List<Board> filteredBoards = user.getStarredBoards().stream()
+                    .filter(b -> !Objects.equals(b.getId(), boardId))
+                    .collect(Collectors.toList());
+            user.setStarredBoards(filteredBoards);
+            appUserRepository.save(user);
+        }
+
         boardRepository.deleteById(boardId);
     }
 
