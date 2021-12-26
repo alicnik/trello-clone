@@ -42,7 +42,7 @@ public class TrelloCloneApplication {
                 return;
             }
 
-            
+
             AppUser alicnik = AppUser.builder()
                     .username("alicnik")
                     .firstName("Alexander")

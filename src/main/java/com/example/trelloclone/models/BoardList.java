@@ -36,6 +36,8 @@ public class BoardList {
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
     @JsonIgnoreProperties(value = {"lists", "cards"}, allowSetters = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn
     private Board board;
 
     @OrderColumn

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -98,11 +100,14 @@ public class AppUser {
             inverseJoinColumns = @JoinColumn(name = "board_id")
     )
     @JsonIgnoreProperties({"starredBy", "owner"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Board> starredBoards;
 
     @OrderColumn
     @OneToMany
     @JsonIgnoreProperties({"owner"})
+    @JoinColumn
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Board> recentBoards;
 
     public static class UserLogin {

@@ -3,8 +3,9 @@ package com.example.trelloclone.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -56,13 +57,14 @@ public class Comment {
             CascadeType.REFRESH,
     }, optional = false)
     @JsonIgnoreProperties(value = "comments", allowSetters = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn
     private Card parentCard;
 
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.DETACH,
-//                    CascadeType.MERGE,
                     CascadeType.REFRESH
             })
     @JoinTable(

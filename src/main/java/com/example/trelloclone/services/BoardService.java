@@ -4,8 +4,10 @@ import com.example.trelloclone.models.AppUser;
 import com.example.trelloclone.models.Board;
 import com.example.trelloclone.models.BoardList;
 import com.example.trelloclone.models.Card;
+import com.example.trelloclone.repositories.AppUserRepository;
 import com.example.trelloclone.repositories.BoardRepository;
 import com.example.trelloclone.repositories.CardRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +17,19 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final AppUserRepository appUserRepository;
 
     @Autowired
-    public BoardService(BoardRepository boardRepository, CardRepository cardRepository) {
+    public BoardService(BoardRepository boardRepository, AppUserRepository appUserRepository) {
         this.boardRepository = boardRepository;
+        this.appUserRepository = appUserRepository;
     }
 
     public List<Board> getAllBoards() {
@@ -49,6 +55,31 @@ public class BoardService {
     }
 
     public void deleteBoard(String boardId) {
+        Optional<Board> optional = boardRepository.findById(boardId);
+        if (optional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Board not found");
+        }
+
+//        Board board = optional.get();
+//
+//        for (AppUser user : board.getRecentlyViewedBy()) {
+//            user.getRecentBoards().remove(board);
+//            appUserRepository.save(user);
+//        }
+//
+//        for (AppUser user : board.getStarredBy()) {
+//            user.getStarredBoards().remove(board);
+//            appUserRepository.save(user);
+//        }
+//
+//        board.getRecentlyViewedBy().clear();
+//        board.getStarredBy().clear();
+//
+//        log.info("Saving");
+//        boardRepository.save(board);
+//
+//
+//        log.info("Deleting");
         boardRepository.deleteById(boardId);
     }
 

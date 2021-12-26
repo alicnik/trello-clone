@@ -69,6 +69,7 @@ public class Board {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     @JsonIgnoreProperties({"starredBoards", "boards", "recentBoards", "cards"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<AppUser> starredBy;
 
     @OrderColumn
@@ -78,6 +79,8 @@ public class Board {
             allowSetters = true,
             allowGetters = true
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn
     private List<AppUser> recentlyViewedBy;
 
 }

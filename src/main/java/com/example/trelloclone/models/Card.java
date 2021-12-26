@@ -56,6 +56,8 @@ public class Card {
             CascadeType.REFRESH,
     })
     @JsonIgnoreProperties(value = {"cards", "lists"}, allowSetters = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn
     private Board board;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
