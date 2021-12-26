@@ -81,7 +81,7 @@ public class Card {
             fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.DETACH,
-                    CascadeType.MERGE,
+//                    CascadeType.MERGE,
                     CascadeType.REFRESH
             })
     @JoinTable(
@@ -95,7 +95,7 @@ public class Card {
     @Column
     @OneToMany(cascade = {
             CascadeType.DETACH,
-            CascadeType.MERGE,
+//            CascadeType.MERGE,
             CascadeType.REFRESH,
     })
     @JsonIgnoreProperties(value = {"parentCard", "linkedCards"}, allowSetters = true)

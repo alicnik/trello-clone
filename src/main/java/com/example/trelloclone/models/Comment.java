@@ -43,7 +43,7 @@ public class Comment {
 
     @ManyToOne(cascade = {
             CascadeType.DETACH,
-            CascadeType.MERGE,
+//            CascadeType.MERGE,
             CascadeType.REFRESH,
     })
     @JoinColumn(name = "comment_author")
@@ -52,7 +52,7 @@ public class Comment {
 
     @ManyToOne(cascade = {
             CascadeType.DETACH,
-            CascadeType.MERGE,
+//            CascadeType.MERGE,
             CascadeType.REFRESH,
     }, optional = false)
     @JsonIgnoreProperties(value = "comments", allowSetters = true)
@@ -62,7 +62,7 @@ public class Comment {
             fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.DETACH,
-                    CascadeType.MERGE,
+//                    CascadeType.MERGE,
                     CascadeType.REFRESH
             })
     @JoinTable(

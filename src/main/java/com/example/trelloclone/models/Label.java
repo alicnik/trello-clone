@@ -33,7 +33,7 @@ public class Label {
             fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.DETACH,
-                    CascadeType.MERGE,
+//                    CascadeType.MERGE,
                     CascadeType.REFRESH
             })
     @JoinTable(

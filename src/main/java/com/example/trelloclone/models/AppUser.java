@@ -84,7 +84,7 @@ public class AppUser {
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
     @JsonIgnoreProperties("members")
-    private List<Card> cardMemberships;
+    private List<Card> cardMemberships = List.of();
 
     @ManyToMany(
             cascade = {
