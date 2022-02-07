@@ -60,7 +60,11 @@ public class BoardListController {
 
     }
     @PutMapping(path = "/boards/{boardId}/lists/{listId}/cards")
-    public ResponseEntity<Board> updateBoardListCards(@PathVariable String boardId,@PathVariable String listId, @RequestBody List<Card> newCards) throws Exception {
+    public ResponseEntity<Board> updateBoardListCards(
+            @PathVariable String boardId,
+            @PathVariable String listId,
+            @RequestBody List<Card> newCards
+    ) throws Exception {
         Board updatedBoard = boardListService.updateBoardListCards(boardId, listId, newCards);
         return ResponseEntity.ok().body(updatedBoard);
     }
