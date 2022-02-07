@@ -65,7 +65,14 @@ public class BoardListController {
             @PathVariable String listId,
             @RequestBody List<Card> newCards
     ) throws Exception {
+        System.out.println("boardId");
+        System.out.println(boardId);
+        System.out.println("listId");
+        System.out.println(listId);
+        System.out.println("newCards");
+        System.out.println(newCards);
         Board updatedBoard = boardListService.updateBoardListCards(boardId, listId, newCards);
+        System.out.println("IN PUT MAPPING - UPDATE SUCCESSFUL");
         return ResponseEntity.ok().body(updatedBoard);
     }
 

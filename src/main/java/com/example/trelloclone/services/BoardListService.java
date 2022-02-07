@@ -100,11 +100,14 @@ public class BoardListService {
     }
 
     public Board updateBoardListCards(String boardId, String listId, List<Card> newCards) throws Exception {
+        System.out.println("IN SERVICE");
         Optional<BoardList> boardList = boardListRepository.findById(listId);
         if (boardList.isEmpty()) {
             throw new Exception("List does not exist");
         }
         BoardList listToUpdate = boardList.get();
+        System.out.println("IN SERVICE - FOUND LIST");
+        System.out.println(listToUpdate);
         newCards.forEach(c -> c.setBoardList(listToUpdate));
         listToUpdate.setCards(newCards);
         boardListRepository.save(listToUpdate);
