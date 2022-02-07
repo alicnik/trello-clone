@@ -36,11 +36,16 @@ public class TrelloCloneApplication {
     ) {
         return args -> {
 
-            AppUser existing = appUserRepository.findByUsername("alicnik");
+//            AppUser existing = appUserRepository.findByUsername("alicnik");
+//
+//            if (existing != null) {
+//                return;
+//            }
 
-            if (existing != null) {
-                return;
-            }
+            appUserRepository.deleteAll();
+            boardRepository.deleteAll();
+            boardListRepository.deleteAll();
+            cardRepository.deleteAll();
 
 
             AppUser alicnik = AppUser.builder()
