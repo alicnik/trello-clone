@@ -42,11 +42,10 @@ public class TrelloCloneApplication {
 //                return;
 //            }
 
-            appUserRepository.deleteAll();
             boardRepository.deleteAll();
             boardListRepository.deleteAll();
             cardRepository.deleteAll();
-
+            appUserRepository.deleteAll();
 
             AppUser alicnik = AppUser.builder()
                     .username("alicnik")
