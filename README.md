@@ -25,7 +25,7 @@
    ```
 6. The response will contain an `access_token` which can be used as a `Bearer` token in the `Authorization` header on requests to any other endpoints.
 
-## Deployment
+## 🚀 Deployment
 
 1. Run `./mvnw clean package -DskipTests`
 2. Run `fly deploy`
