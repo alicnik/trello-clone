@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
@@ -86,7 +87,7 @@ public class AppUser {
             inverseJoinColumns = @JoinColumn(name = "card_id")
     )
     @JsonIgnoreProperties("members")
-    private List<Card> cardMemberships = List.of();
+    private List<Card> cardMemberships = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(

@@ -25,7 +25,7 @@ public class BoardListController {
         this.boardListService = boardListService;
     }
 
-    @GetMapping()
+    @GetMapping(path = "/lists")
     public List<BoardList> getAllBoardLists() {
         return boardListService.getAllBoardLists();
     }
